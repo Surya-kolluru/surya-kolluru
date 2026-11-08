@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="330" viewBox="0 0 1200 330" role="img" aria-labelledby="title desc">
+  <title id="title">Surya — AI Engineering</title>
+  <desc id="desc">Dark terminal-inspired banner with neon green typography, grid lines, and an abstract AI circuitry motif.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#020805"/>
+      <stop offset="1" stop-color="#07150d"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9cffb7"/>
+      <stop offset="1" stop-color="#25e879"/>
+    </linearGradient>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#1d623b" stroke-width="0.65" opacity="0.25"/>
+    </pattern>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="330" rx="22" fill="url(#bg)"/>
+  <rect x="1" y="1" width="1198" height="328" rx="21" fill="url(#grid)" stroke="#287c4a" stroke-width="1.4"/>
+  <rect x="16" y="16" width="1168" height="298" rx="15" fill="none" stroke="#1a4c30" stroke-width="1"/>
+  <circle cx="42" cy="39" r="5" fill="#ff6b6b"/><circle cx="60" cy="39" r="5" fill="#f4c95d"/><circle cx="78" cy="39" r="5" fill="#39ff88"/>
+  <text x="105" y="44" fill="#79ba91" font-family="monospace" font-size="15">surya@ai-lab:~$ ./profile</text>
+  <text x="64" y="117" fill="url(#glow)" filter="url(#softGlow)" font-family="monospace" font-size="48" font-weight="700">KOLLURU KAMESWARA</text>
+  <text x="64" y="169" fill="url(#glow)" filter="url(#softGlow)" font-family="monospace" font-size="48" font-weight="700">SURYESH</text>
+  <text x="66" y="207" fill="#c5f9d4" font-family="monospace" font-size="20">AI ENGINEERING  //  MACHINE LEARNING  //  COMPUTER VISION</text>
+  <text x="66" y="243" fill="#65d98e" font-family="monospace" font-size="15">[ PYTHON ]  [ PYTORCH ]  [ REACT ]  [ IoT ]</text>
+  <text x="66" y="285" fill="#48976a" font-family="monospace" font-size="13">&gt; building intelligent systems for real-world problems_</text>
+  <g transform="translate(900 70)" fill="none" stroke="#39ff88" stroke-width="2" opacity="0.9">
+    <path d="M0 72H48L76 44H116M0 126H54L82 154H128M100 0V28L128 56H176M142 184V154L174 122H210"/>
+    <path d="M32 22H70L92 44M155 20H194V54M34 178H66V202H106M174 174H210" opacity="0.6"/>
+    <rect x="74" y="60" width="102" height="102" rx="17" fill="#0a2113" stroke="#6df7a1"/>
+    <path d="M101 94h48M101 110h48M101 126h31" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="74" cy="44" r="5" fill="#39ff88"/><circle cx="0" cy="72" r="5" fill="#39ff88"/>
+    <circle cx="128" cy="154" r="5" fill="#39ff88"/><circle cx="176" cy="56" r="5" fill="#39ff88"/>
+    <circle cx="210" cy="122" r="5" fill="#39ff88"/><circle cx="106" cy="202" r="5" fill="#39ff88"/>
+  </g>
+  <text x="1133" y="291" fill="#39875a" font-family="monospace" font-size="12" text-anchor="end">SYS.ONLINE</text>
+</svg>
