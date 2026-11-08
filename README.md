@@ -129,6 +129,24 @@ Amrita Vishwa Vidyapeetham
 
 ---
 
+## `> ./arcade --play`
+
+<p align="center">
+  <a href="https://surya-kolluru.github.io/surya-kolluru/arcade/">
+    <img src="./assets/arcade-preview.svg" alt="Open Surya Arcade — play Snake and Fire Defense" width="100%" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#snake"><img src="https://img.shields.io/badge/PLAY-SNAKE-39ff88?style=for-the-badge&logo=googlechrome&logoColor=black" alt="Play Snake" /></a>
+  &nbsp;
+  <a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#fire"><img src="https://img.shields.io/badge/PLAY-FIRE_DEFENSE-ff8b43?style=for-the-badge&logo=firefoxbrowser&logoColor=black" alt="Play Fire Defense" /></a>
+</p>
+
+<p align="center"><sub>Two browser games · Keyboard and touch controls · Personal best scores saved in your browser</sub></p>
+
+---
+
 ## `> ping me`
 
 - **GitHub:** [Surya-kolluru](https://github.com/Surya-kolluru)
