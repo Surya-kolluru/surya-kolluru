@@ -448,7 +448,8 @@ canvas{display:block;width:100%;height:auto;aspect-ratio:900/500;border-radius:1
     }else if(k===" "){if(!running&&!over)startFire();fireShot()}
   });
   document.addEventListener("visibilitychange",()=>{if(document.hidden&&running&&!paused)pauseToggle()});
-  chooseGame("snake");
+  chooseGame(location.hash==="#fire"?"fire":"snake");
+  window.addEventListener("hashchange",()=>{const selected=location.hash==="#fire"?"fire":"snake";if(selected!==game)chooseGame(selected)});
   requestAnimationFrame(loop);
 })();
 </script>
