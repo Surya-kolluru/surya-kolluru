@@ -28,6 +28,25 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js for script validation
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate arcade JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          html = Path("arcade/index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script>(.*?)</script>", html, flags=re.S)
+          if len(scripts) != 1:
+              raise SystemExit(f"Expected one inline game script, found {len(scripts)}")
+          Path("/tmp/arcade.js").write_text(scripts[0], encoding="utf-8")
+          print("Extracted arcade JavaScript for syntax validation.")
+          PY
+          node --check /tmp/arcade.js
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
