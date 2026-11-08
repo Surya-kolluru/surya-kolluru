@@ -39,13 +39,13 @@ jobs:
           from pathlib import Path
           import re
           html = Path("arcade/index.html").read_text(encoding="utf-8")
-          scripts = re.findall(r"<script>(.*?)</script>", html, flags=re.S)
+          scripts = re.findall(r"<script\\b[^>]*>(.*?)</script>", html, flags=re.S)
           if len(scripts) != 1:
-              raise SystemExit(f"Expected one inline game script, found {len(scripts)}")
-          Path("/tmp/arcade.js").write_text(scripts[0], encoding="utf-8")
-          print("Extracted arcade JavaScript for syntax validation.")
+              raise SystemExit(f"Expected one game module, found {len(scripts)}")
+          Path("/tmp/arcade.mjs").write_text(scripts[0], encoding="utf-8")
+          print("Extracted arcade module for syntax validation.")
           PY
-          node --check /tmp/arcade.js
+          node --check /tmp/arcade.mjs
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
