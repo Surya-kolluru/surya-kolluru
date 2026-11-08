@@ -1,41 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="330" viewBox="0 0 1200 330" role="img" aria-labelledby="title desc">
-  <title id="title">Surya — AI Engineering</title>
-  <desc id="desc">Dark terminal-inspired banner with neon green typography, grid lines, and an abstract AI circuitry motif.</desc>
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#020805"/>
-      <stop offset="1" stop-color="#07150d"/>
-    </linearGradient>
-    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#9cffb7"/>
-      <stop offset="1" stop-color="#25e879"/>
-    </linearGradient>
-    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
-      <path d="M28 0H0V28" fill="none" stroke="#1d623b" stroke-width="0.65" opacity="0.25"/>
-    </pattern>
-    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>
-  <rect width="1200" height="330" rx="22" fill="url(#bg)"/>
-  <rect x="1" y="1" width="1198" height="328" rx="21" fill="url(#grid)" stroke="#287c4a" stroke-width="1.4"/>
-  <rect x="16" y="16" width="1168" height="298" rx="15" fill="none" stroke="#1a4c30" stroke-width="1"/>
-  <circle cx="42" cy="39" r="5" fill="#ff6b6b"/><circle cx="60" cy="39" r="5" fill="#f4c95d"/><circle cx="78" cy="39" r="5" fill="#39ff88"/>
-  <text x="105" y="44" fill="#79ba91" font-family="monospace" font-size="15">surya@ai-lab:~$ ./profile</text>
-  <text x="64" y="117" fill="url(#glow)" filter="url(#softGlow)" font-family="monospace" font-size="48" font-weight="700">KOLLURU KAMESWARA</text>
-  <text x="64" y="169" fill="url(#glow)" filter="url(#softGlow)" font-family="monospace" font-size="48" font-weight="700">SURYESH</text>
-  <text x="66" y="207" fill="#c5f9d4" font-family="monospace" font-size="20">AI ENGINEERING  //  MACHINE LEARNING  //  COMPUTER VISION</text>
-  <text x="66" y="243" fill="#65d98e" font-family="monospace" font-size="15">[ PYTHON ]  [ PYTORCH ]  [ REACT ]  [ IoT ]</text>
-  <text x="66" y="285" fill="#48976a" font-family="monospace" font-size="13">&gt; building intelligent systems for real-world problems_</text>
-  <g transform="translate(900 70)" fill="none" stroke="#39ff88" stroke-width="2" opacity="0.9">
-    <path d="M0 72H48L76 44H116M0 126H54L82 154H128M100 0V28L128 56H176M142 184V154L174 122H210"/>
-    <path d="M32 22H70L92 44M155 20H194V54M34 178H66V202H106M174 174H210" opacity="0.6"/>
-    <rect x="74" y="60" width="102" height="102" rx="17" fill="#0a2113" stroke="#6df7a1"/>
-    <path d="M101 94h48M101 110h48M101 126h31" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="74" cy="44" r="5" fill="#39ff88"/><circle cx="0" cy="72" r="5" fill="#39ff88"/>
-    <circle cx="128" cy="154" r="5" fill="#39ff88"/><circle cx="176" cy="56" r="5" fill="#39ff88"/>
-    <circle cx="210" cy="122" r="5" fill="#39ff88"/><circle cx="106" cy="202" r="5" fill="#39ff88"/>
-  </g>
-  <text x="1133" y="291" fill="#39875a" font-family="monospace" font-size="12" text-anchor="end">SYS.ONLINE</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="330" viewBox="0 0 1200 330" role="img" aria-labelledby="t d">
+<title id="t">Kolluru Kameswara Suryesh — portfolio</title>
+<desc id="d">An editorial portfolio banner on warm paper with a monogram seal and simple hand-drawn lines.</desc>
+<defs>
+  <pattern id="paperLines" width="24" height="24" patternUnits="userSpaceOnUse">
+    <path d="M0 23.5H24" stroke="#d9d1bf" stroke-width=".55" opacity=".48"/>
+  </pattern>
+  <pattern id="checks" width="18" height="18" patternUnits="userSpaceOnUse">
+    <path d="M18 0H0V18" fill="none" stroke="#89957f" stroke-width=".6" opacity=".22"/>
+  </pattern>
+</defs>
+<rect width="1200" height="330" rx="16" fill="#eee8d9"/>
+<rect x="1" y="1" width="1198" height="328" rx="15" fill="url(#paperLines)" stroke="#b7af9d" stroke-width="1.5"/>
+<rect x="18" y="18" width="1164" height="294" rx="10" fill="none" stroke="#7d8f77" stroke-width="1"/>
+<text x="54" y="56" font-family="monospace" font-size="13" letter-spacing="3" fill="#536d55">KOLLURU / PORTFOLIO</text>
+<path d="M54 73H785" stroke="#8d9a83" stroke-width="1"/>
+<text x="54" y="139" font-family="Georgia,serif" font-size="48" font-weight="bold" letter-spacing="-1.5" fill="#29352d">KOLLURU KAMESWARA</text>
+<text x="54" y="194" font-family="Georgia,serif" font-size="52" font-style="italic" fill="#5d785f">SURYESH</text>
+<text x="57" y="234" font-family="monospace" font-size="15" letter-spacing="1.4" fill="#465b49">ARTIFICIAL INTELLIGENCE ENGINEERING  /  SOFTWARE  /  RESEARCH</text>
+<g transform="translate(56 266)" font-family="monospace" font-size="11" letter-spacing="1">
+  <rect x="0" y="-15" width="104" height="26" rx="3" fill="#d8dfca" stroke="#788a72"/><text x="52" y="2" text-anchor="middle" fill="#344637">MACHINE LEARNING</text>
+  <rect x="116" y="-15" width="115" height="26" rx="3" fill="#e5d6c3" stroke="#b37b5f"/><text x="173" y="2" text-anchor="middle" fill="#614635">COMPUTER VISION</text>
+  <rect x="243" y="-15" width="101" height="26" rx="3" fill="#d7ddd6" stroke="#7d8c82"/><text x="293" y="2" text-anchor="middle" fill="#39493d">SOFTWARE</text>
+</g>
+<g transform="translate(927 164)">
+  <circle r="112" fill="#d9dfcf" stroke="#7f9178" stroke-width="2"/>
+  <circle r="96" fill="url(#checks)" stroke="#9aa68e" stroke-width="1.2"/>
+  <circle r="77" fill="#f0eadc" stroke="#aeb8a2" stroke-width="1"/>
+  <text x="0" y="-7" text-anchor="middle" font-family="Georgia,serif" font-size="60" fill="#415a46">KS</text>
+  <path d="M-44 23Q0 44 44 23M-30 42H30" fill="none" stroke="#b36d4d" stroke-width="2" stroke-linecap="round"/>
+  <text x="0" y="66" text-anchor="middle" font-family="monospace" font-size="10" letter-spacing="2" fill="#526b54">EST. 2024</text>
+</g>
+<path d="M1090 40l18 18m-18 0 18-18M1090 275l18 18m-18 0 18-18" stroke="#b46e50" stroke-width="2" opacity=".7"/>
+<text x="1146" y="292" text-anchor="end" font-family="monospace" font-size="10" letter-spacing="1.4" fill="#6e806b">A WORK IN PROGRESS</text>
 </svg>
