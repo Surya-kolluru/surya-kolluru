@@ -39,7 +39,7 @@ jobs:
           from pathlib import Path
           import re
           html = Path("arcade/index.html").read_text(encoding="utf-8")
-          scripts = re.findall(r"<script\\b[^>]*>(.*?)</script>", html, flags=re.S)
+          scripts = re.findall(r"<script\b[^>]*>(.*?)</script>", html, flags=re.S)
           if len(scripts) != 1:
               raise SystemExit(f"Expected one game module, found {len(scripts)}")
           Path("/tmp/arcade.mjs").write_text(scripts[0], encoding="utf-8")
