@@ -1,28 +1,56 @@
-name: Generate contribution snake
+name: Refresh profile contribution visuals
 
 on:
+  push:
+    branches:
+      - main
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "17 0 * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: profile-visuals
+  cancel-in-progress: true
+
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate contribution graph snake
-        uses: Platane/snk@v3
+      - name: Check out profile repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Fetch public contribution calendar
+        env:
+          PROFILE_USER: ${{ github.repository_owner }}
+        run: |
+          curl --fail --silent --show-error --location --retry 3 --retry-delay 2 \
+            "https://github-contributions-api.jogruber.de/v4/${PROFILE_USER}?y=last" \
+            --output contributions.json
+
+      - name: Generate repository-hosted heatmap and activity graph
+        run: python scripts/generate_heatmap.py contributions.json
+
+      - name: Generate animated contribution snake
+        uses: Platane/snk/svg-only@v3
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
-      - name: Publish to output branch
+
+      - name: Publish generated SVGs to output branch
         uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
           build_dir: dist
+          commit_message: "chore: refresh profile contribution visuals"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
