@@ -292,7 +292,7 @@ canvas{display:block;width:100%;height:auto;max-width:820px;margin:auto;touch-ac
 </div>
 
 <script type="module">
-import { Chess } from "https://esm.sh/chess.js@1.4.0";
+import { Chess } from "https://esm.unpkg.com/chess.js@1.4.0";
 
 (() => {
 "use strict";
@@ -324,7 +324,8 @@ $("soundToggle").addEventListener("click",()=>{
 });
 function readBest(k){try{return Number(localStorage.getItem("side-room-"+k))||0}catch(_){return 0}}
 function writeBest(k,n){try{localStorage.setItem("side-room-"+k,String(n))}catch(_){}}
-function chooseGame(name){
+function chooseGame(name,updateAddress=true){
+  if(!["snake","fire","chess"].includes(name))name="snake";
   activeGame=name;
   tabs.forEach(t=>t.setAttribute("aria-pressed",String(t.dataset.game===name)));
   Object.entries(views).forEach(([k,v])=>v.hidden=k!==name);
@@ -335,11 +336,13 @@ function chooseGame(name){
   };
   stageTitle.textContent=labels[name][0];stageSub.textContent=labels[name][1];
   canvasActions.hidden=name==="chess";chessActions.hidden=name!=="chess";
+  if(updateAddress&&location.hash!=="#"+name)history.replaceState(null,"","#"+name);
   if(name==="snake")drawSnake();
   if(name==="fire")drawFire();
   if(name==="chess")renderChess();
 }
 tabs.forEach(t=>t.addEventListener("click",()=>chooseGame(t.dataset.game)));
+window.addEventListener("hashchange",()=>chooseGame(location.hash.slice(1),false));
 
 /* SNAKE — a simple grid game with a gradually tightening pace. */
 const snakeCanvas=$("snakeCanvas"),sc=snakeCanvas.getContext("2d");
@@ -672,6 +675,7 @@ $("copyPgnBtn").addEventListener("click",async()=>{
   catch(_){$("chessNotice").textContent="Clipboard access is unavailable in this browser."}
 });
 newChess();
+chooseGame(location.hash.slice(1)||"snake",false);
 
 /* One animation loop for both canvas games. */
 function frame(now){
