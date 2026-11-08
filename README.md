@@ -1,6 +1,6 @@
 <!-- Profile README | Surya-kolluru -->
 <p align="center">
-  <img src="https://ghchart.rshah.org/39ff88/Surya-kolluru" alt="GitHub contribution heatmap" width="100%" />
+  <img src="https://raw.githubusercontent.com/Surya-kolluru/surya-kolluru/output/contribution-heatmap.svg" alt="GitHub contribution heatmap" width="100%" />
 </p>
 <p align="center"><img src="./assets/profile-banner.svg" alt="Surya — AI Engineering" width="100%" /></p>
 <p align="center">
@@ -113,11 +113,11 @@ Amrita Vishwa Vidyapeetham
 ## `> git stats --global`
 
 <p align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=Surya-kolluru&show_icons=true&hide_border=true&theme=chartreuse-dark&rank_icon=github" alt="GitHub statistics" />
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Surya-kolluru&layout=compact&hide_border=true&theme=chartreuse-dark" alt="Top languages" />
+  <img height="165" src="https://github-stats-extended.vercel.app/api?username=Surya-kolluru&show_icons=true&hide_border=true&theme=chartreuse-dark&rank_icon=github" alt="GitHub statistics" />
+  <img height="165" src="https://github-stats-extended.vercel.app/api/top-langs/?username=Surya-kolluru&layout=compact&hide_border=true&theme=chartreuse-dark" alt="Top languages" />
 </p>
 <p align="center"><img src="https://streak-stats.demolab.com?user=Surya-kolluru&theme=chartreuse-dark&hide_border=true" alt="GitHub contribution streak" /></p>
-<p align="center"><img src="https://github-readme-activity-graph.vercel.app/graph?username=Surya-kolluru&theme=github-compact&hide_border=true&area=true" alt="GitHub activity graph" width="100%" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Surya-kolluru/surya-kolluru/output/contribution-activity.svg" alt="GitHub activity graph" width="100%" /></p>
 
 ---
 
