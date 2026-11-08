@@ -1,42 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="390" viewBox="0 0 1200 390" role="img" aria-labelledby="t d">
-<title id="t">Surya Arcade — two playable mini games</title>
-<desc id="d">Two neon green arcade game panels for Snake and Fire Defense.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="365" viewBox="0 0 1200 365" role="img" aria-labelledby="t d">
+<title id="t">The Side Room — three small games</title>
+<desc id="d">An illustrated warm-paper arcade card showing Snake, Fire Watch and Chess.</desc>
 <defs>
- <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#0b1710"/><stop offset="1" stop-color="#030805"/></linearGradient>
- <linearGradient id="green" x2="1"><stop stop-color="#9affba"/><stop offset="1" stop-color="#39ff88"/></linearGradient>
- <pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="#1b5030" stroke-width=".7" opacity=".45"/></pattern>
+  <pattern id="paper" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M0 21.5H22" stroke="#d4cbb8" stroke-width=".6" opacity=".5"/></pattern>
 </defs>
-<rect width="1200" height="390" rx="22" fill="url(#bg)"/>
-<rect x="1" y="1" width="1198" height="388" rx="21" fill="url(#grid)" stroke="#276941"/>
-<text x="50" y="54" fill="#39ff88" font-family="monospace" font-size="13" letter-spacing="3">SURYA ARCADE // INSERT COIN</text>
-<text x="50" y="100" fill="#e6ffed" font-family="Arial,sans-serif" font-size="35" font-weight="800">TWO GAMES. ONE ARCADE.</text>
-<text x="50" y="128" fill="#8ca895" font-family="monospace" font-size="14">PICK A MODE · BEAT YOUR BEST · PLAY AGAIN</text>
-<g transform="translate(50 160)">
- <rect width="530" height="182" rx="16" fill="#07140c" stroke="#39ff88" stroke-width="1.5"/>
- <text x="24" y="34" fill="#aaffc2" font-family="monospace" font-size="14" font-weight="700">01 / SNAKE</text>
- <text x="24" y="58" fill="#789b85" font-family="monospace" font-size="11">CLASSIC GRID RUNNER</text>
- <g transform="translate(50 83)">
-  <rect x="0" y="0" width="410" height="78" rx="10" fill="#030805" stroke="#1a4d2b"/>
-  <g fill="none" stroke="#123921" stroke-width="1">
-   <path d="M0 19H410M0 39H410M0 59H410M40 0V78M80 0V78M120 0V78M160 0V78M200 0V78M240 0V78M280 0V78M320 0V78M360 0V78"/>
-  </g>
-  <path d="M115 38h34v-20h34v20h34v20h34" fill="none" stroke="#39ff88" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="251" cy="58" r="6" fill="#ffc75f"/>
-  <circle cx="108" cy="38" r="3" fill="#061b0e"/>
- </g>
+<rect width="1200" height="365" rx="14" fill="#eee8d9"/>
+<rect x="1" y="1" width="1198" height="363" rx="13" fill="url(#paper)" stroke="#b7af9d" stroke-width="1.5"/>
+<text x="42" y="42" font-family="monospace" font-size="12" letter-spacing="3" fill="#5c765e">A SMALL PLACE TO PLAY / VOL. 01</text>
+<text x="42" y="87" font-family="Georgia,serif" font-size="37" fill="#29352d">The Side Room</text>
+<text x="44" y="114" font-family="monospace" font-size="12" letter-spacing="1.4" fill="#647260">THREE GAMES. PICK ONE. STAY A WHILE.</text>
+<g transform="translate(42 143)">
+  <rect width="354" height="177" rx="7" fill="#e1e5d6" stroke="#87977e" stroke-width="1.3"/>
+  <text x="19" y="28" font-family="monospace" font-size="11" letter-spacing="2" fill="#526d54">01 / ARCADE CLASSIC</text>
+  <path d="M40 118h44V88h45V58h45" fill="none" stroke="#597b5b" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="174" cy="58" r="12" fill="#597b5b"/><circle cx="177" cy="54" r="2" fill="#f4f0e4"/>
+  <ellipse cx="266" cy="99" rx="13" ry="16" fill="#b95743"/><path d="M266 82q1-15 12-17" fill="none" stroke="#667d58" stroke-width="4" stroke-linecap="round"/><path d="M276 69q12-11 19-4-7 11-19 4" fill="#83936b"/>
+  <text x="19" y="155" font-family="Georgia,serif" font-size="23" fill="#29352d">Snake</text>
 </g>
-<g transform="translate(620 160)">
- <rect width="530" height="182" rx="16" fill="#130e09" stroke="#ff8b43" stroke-width="1.5"/>
- <text x="24" y="34" fill="#ffd0a2" font-family="monospace" font-size="14" font-weight="700">02 / FIRE DEFENSE</text>
- <text x="24" y="58" fill="#ad8467" font-family="monospace" font-size="11">AIM · SHOOT · SURVIVE THE WAVES</text>
- <g transform="translate(50 83)">
-  <rect x="0" y="0" width="410" height="78" rx="10" fill="#090604" stroke="#57321f"/>
-  <g fill="none" stroke="#51291c" stroke-width="1"><path d="M0 19H410M0 39H410M0 59H410M40 0V78M80 0V78M120 0V78M160 0V78M200 0V78M240 0V78M280 0V78M320 0V78M360 0V78"/></g>
-  <circle cx="90" cy="20" r="12" fill="#ff653e" opacity=".9"/><circle cx="90" cy="20" r="21" fill="#ff6030" opacity=".14"/>
-  <circle cx="290" cy="19" r="9" fill="#ffb347"/><circle cx="290" cy="19" r="18" fill="#ff963b" opacity=".17"/>
-  <circle cx="205" cy="9" r="7" fill="#ff5939"/>
-  <path d="M205 78V47" stroke="#39ff88" stroke-width="8" stroke-linecap="round"/><path d="M185 78h40" stroke="#a8ffc0" stroke-width="4" stroke-linecap="round"/>
-  <path d="M205 45L205 23" stroke="#ffe18a" stroke-width="3" stroke-linecap="round"/>
- </g>
+<g transform="translate(423 143)">
+  <rect width="354" height="177" rx="7" fill="#e9ddc9" stroke="#b17b60" stroke-width="1.3"/>
+  <text x="19" y="28" font-family="monospace" font-size="11" letter-spacing="2" fill="#9a5d43">02 / DEFENCE</text>
+  <path d="M170 119c-24-18-19-43-3-59 1 16 12 10 10-13 20 20 31 44 11 72Z" fill="#bd5c3e"/>
+  <path d="M175 117c-10-15-2-27 5-35 11 14 12 25 2 35Z" fill="#e2ad62"/>
+  <path d="M172 134v-20m-18 20h36" stroke="#667b61" stroke-width="6" stroke-linecap="round"/>
+  <path d="M72 128h210" stroke="#a18a6a" stroke-width="2"/>
+  <text x="19" y="155" font-family="Georgia,serif" font-size="23" fill="#29352d">Fire Watch</text>
+</g>
+<g transform="translate(804 143)">
+  <rect width="354" height="177" rx="7" fill="#e2dfd1" stroke="#879184" stroke-width="1.3"/>
+  <text x="19" y="28" font-family="monospace" font-size="11" letter-spacing="2" fill="#586c5b">03 / THE CLASSIC</text>
+  <g transform="translate(91 45)" fill="#83947a">
+    <rect width="44" height="44"/><rect x="88" width="44" height="44"/><rect x="44" y="44" width="44" height="44"/><rect x="132" y="44" width="44" height="44"/>
+    <rect y="88" width="44" height="44"/><rect x="88" y="88" width="44" height="44"/>
+  </g>
+  <text x="179" y="145" text-anchor="middle" font-family="Georgia,serif" font-size="87" fill="#f5f0e4" stroke="#394638" stroke-width="1.2" paint-order="stroke">♞</text>
+  <text x="19" y="155" font-family="Georgia,serif" font-size="23" fill="#29352d">Chess</text>
 </g>
 </svg>
