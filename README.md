@@ -149,19 +149,22 @@ Amrita Vishwa Vidyapeetham
 
 <p align="center">
   <a href="https://surya-kolluru.github.io/surya-kolluru/arcade/">
-    <img src="./assets/arcade-preview.svg" alt="Open the three-game arcade: Snake, Fire Watch and Chess" width="100%" />
+    <img src="./assets/arcade-preview.svg" alt="Enter Lantern Room Arcade, an eight-game browser arcade" width="100%" />
   </a>
 </p>
 
 <p align="center">
   <a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#snake"><img src="https://img.shields.io/badge/PLAY-SNAKE-39ff88?style=for-the-badge" alt="Play Snake" /></a>
-  &nbsp;
-  <a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#fire"><img src="https://img.shields.io/badge/PLAY-FIRE_WATCH-ff8b43?style=for-the-badge" alt="Play Fire Watch" /></a>
-  &nbsp;
-  <a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#chess"><img src="https://img.shields.io/badge/PLAY-CHESS-39ff88?style=for-the-badge" alt="Play Chess" /></a>
+  &nbsp;<a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#fire"><img src="https://img.shields.io/badge/PLAY-FIRE_WATCH-ff8b43?style=for-the-badge" alt="Play Fire Watch" /></a>
+  &nbsp;<a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#chess"><img src="https://img.shields.io/badge/PLAY-CHESS-39ff88?style=for-the-badge" alt="Play Chess" /></a>
+  &nbsp;<a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#lantern-maze"><img src="https://img.shields.io/badge/PLAY-LANTERN_MAZE-e7c46e?style=for-the-badge" alt="Play Lantern Maze" /></a>
+  &nbsp;<a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#block-circuit"><img src="https://img.shields.io/badge/PLAY-BLOCK_CIRCUIT-69d6cd?style=for-the-badge" alt="Play Block Circuit" /></a>
+  &nbsp;<a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#starline-siege"><img src="https://img.shields.io/badge/PLAY-STARLINE_SIEGE-75def0?style=for-the-badge" alt="Play Starline Siege" /></a>
+  &nbsp;<a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#void-drifter"><img src="https://img.shields.io/badge/PLAY-VOID_DRIFTER-9fcde1?style=for-the-badge" alt="Play Void Drifter" /></a>
+  &nbsp;<a href="https://surya-kolluru.github.io/surya-kolluru/arcade/#prism-breaker"><img src="https://img.shields.io/badge/PLAY-PRISM_BREAKER-dc8bd1?style=for-the-badge" alt="Play Prism Breaker" /></a>
 </p>
 
-<p align="center"><sub>Three browser games · Keyboard and touch controls · Personal best scores saved in your browser</sub></p>
+<p align="center"><sub>Eight browser games · Keyboard, mouse and touch controls · Personal best scores saved on this device</sub></p>
 
 ---
 

@@ -19,7 +19,7 @@ export class FireWatchGame{
     this.$("fire-start").addEventListener("click",()=>this.start());
     this.$("fire-pause").addEventListener("click",()=>this.togglePause());
     this.$("fire-restart").addEventListener("click",()=>this.restart());
-    this.onKey=e=>{if(!this.active||e.key!==" ")return;e.preventDefault();if(this.state==="ready")this.start();if(this.state==="playing")this.fire()};
+    this.onKey=e=>{if(!this.active)return;const aim={arrowleft:[-24,0],a:[-24,0],arrowright:[24,0],d:[24,0],arrowup:[0,-24],w:[0,-24],arrowdown:[0,24],s:[0,24]}[e.key.toLowerCase()];if(aim){e.preventDefault();this.aim.x=clamp(this.aim.x+aim[0],0,this.w);this.aim.y=clamp(this.aim.y+aim[1],0,this.h);return}if(e.key!==" ")return;e.preventDefault();if(this.state==="ready")this.start();if(this.state==="playing")this.fire()};
     document.addEventListener("keydown",this.onKey);
   }
   reset(){
@@ -28,13 +28,13 @@ export class FireWatchGame{
     this.wind=0;this.windTarget=0;this.windClock=0;this.time=0;this.gunKick=0;this.announcement=0;
     this.aim={x:600,y:300};for(let i=0;i<2;i++)this.spawnFire(true);
     this.updateHud();this.overlay("NORTH RIDGE · FIELD NOTE 01","The valley is quiet.","Small fires are appearing along the tree line. Aim from the lookout and cool each one before it reaches the homes below.","BEGIN THE WATCH");
-    this.$("fire-pause").textContent="PAUSE";this.render();
+    this.$("fire-pause").textContent="PAUSE";this.$("fire-pause").disabled=false;this.render();
   }
   restart(){this.reset();this.audio.play("fire-start")}
   overlay(kicker,title,copy,button){
     this.$("fire-overlay-kicker").textContent=kicker;this.$("fire-overlay-title").textContent=title;this.$("fire-overlay-copy").textContent=copy;this.$("fire-start").textContent=button;this.$("fire-overlay").hidden=false;
   }
-  start(){if(this.state==="over")this.reset();this.state="playing";this.$("fire-overlay").hidden=true;this.audio.unlock();this.audio.play("fire-start")}
+  start(){if(this.state==="over")this.reset();this.state="playing";this.$("fire-pause").disabled=false;this.$("fire-overlay").hidden=true;this.audio.unlock();this.audio.play("fire-start")}
   togglePause(){
     if(this.state==="playing"){this.state="paused";this.$("fire-pause").textContent="RESUME";this.overlay("NORTH RIDGE · RADIO SILENCE","Lookout paused.","The wind can wait. Resume the watch when you are ready.","RESUME WATCH")}
     else if(this.state==="paused"){this.state="playing";this.$("fire-overlay").hidden=true;this.$("fire-pause").textContent="PAUSE"}
@@ -104,7 +104,7 @@ export class FireWatchGame{
   loseLife(x,y){
     this.burst(x,y,"ember");this.lives--;this.audio.play("fire-damage");this.updateHud();
     if(this.lives<=0){
-      this.state="over";this.audio.play("fire-over");
+      this.state="over";this.$("fire-pause").disabled=true;this.audio.play("fire-over");
       this.overlay("NORTH RIDGE · END OF SHIFT","The valley needs a rest.",`You held the line through shift ${this.stage} and scored ${this.score} points. Your best is ${this.best}. Take the watch again?`,"START ANOTHER SHIFT");
     }
   }
@@ -125,11 +125,11 @@ export class FireWatchGame{
       if(f.y>594){this.fires.splice(i,1);this.loseLife(f.x,f.y);if(this.state!=="playing")return}
     }
     for(let i=this.shots.length-1;i>=0;i--){
-      const b=this.shots[i];b.trail.push({x:b.x,y:b.y});if(b.trail.length>6)b.trail.shift();
+      const b=this.shots[i],oldX=b.x,oldY=b.y;b.trail.push({x:b.x,y:b.y});if(b.trail.length>6)b.trail.shift();
       b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;
       if(b.life<=0||b.x<0||b.x>this.w||b.y<0||b.y>this.h){this.shots.splice(i,1);continue}
       for(let j=this.fires.length-1;j>=0;j--){
-        const f=this.fires[j];if(Math.hypot(b.x-f.x,b.y-f.y)<f.size+10){this.shots.splice(i,1);this.douse(f);break}
+        const f=this.fires[j],dx=b.x-oldX,dy=b.y-oldY,len2=dx*dx+dy*dy,t=len2?clamp(((f.x-oldX)*dx+(f.y-oldY)*dy)/len2,0,1):0,nearX=oldX+t*dx,nearY=oldY+t*dy;if(Math.hypot(nearX-f.x,nearY-f.y)<f.size+10){this.shots.splice(i,1);this.douse(f);break}
       }
     }
     for(let i=this.particles.length-1;i>=0;i--){const p=this.particles[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=45*dt;p.life-=dt;if(p.life<=0)this.particles.splice(i,1)}

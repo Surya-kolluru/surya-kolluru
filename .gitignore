@@ -1,0 +1,5 @@
+node_modules/
+artifacts/
+lantern-room-qa-screenshots.zip
+playwright-report/
+test-results/

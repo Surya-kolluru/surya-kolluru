@@ -1,30 +1,35 @@
-name: Test and deploy The Side Room
+name: Test and deploy Lantern Room Arcade
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "arcade/**"
       - "assets/arcade-preview.svg"
       - ".github/workflows/deploy-arcade.yml"
       - "README.md"
+      - "package.json"
+      - "package-lock.json"
+  pull_request:
+    branches: [main]
+    paths:
+      - "arcade/**"
+      - "assets/arcade-preview.svg"
+      - ".github/workflows/deploy-arcade.yml"
+      - "README.md"
+      - "package.json"
+      - "package-lock.json"
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: github-pages
   cancel-in-progress: true
 
 jobs:
-  verify-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -34,90 +39,99 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
 
-      - name: Check every game module
+      - name: Install pinned test dependencies
+        run: npm ci
+
+      - name: Validate JavaScript modules and local references
         run: |
           set -e
-          for file in arcade/js/*.js; do
+          while IFS= read -r file; do
             echo "Checking $file"
             node --check "$file"
-          done
-
-      - name: Check required local assets and styles
-        run: |
+          done < <(find arcade/js -type f -name '*.js' | sort)
           python - <<'PY'
           from pathlib import Path
           import re
-          root = Path("arcade")
-          html = (root / "index.html").read_text(encoding="utf-8")
-          required = re.findall(r'(?:href|src)="(\./[^"]+)"', html)
-          required = [p for p in required if p not in {"./", "./#"}]
-          missing = [p for p in required if not (root / p[2:].split("#", 1)[0]).is_file()]
-          if missing:
-              raise SystemExit("Missing local files: " + ", ".join(missing))
-          for js in (root / "js").glob("*.js"):
-              if js.stat().st_size < 100:
-                  raise SystemExit(f"Unexpectedly small JS module: {js}")
-          print(f"Validated {len(required)} local HTML references and {len(list((root / 'js').glob('*.js')))} JavaScript modules.")
+          root=Path('arcade')
+          html=(root/'index.html').read_text(encoding='utf-8')
+          refs=re.findall(r'(?:href|src)="(\./[^"]+)"',html)
+          missing=[x for x in refs if not (root/x[2:].split('#',1)[0]).is_file()]
+          if missing: raise SystemExit('Missing local references: '+', '.join(missing))
+          ids=set(re.findall(r'data-open-game="([^"]+)"',html))
+          expected={'snake','fire','chess','lantern-maze','block-circuit','starline-siege','void-drifter','prism-breaker'}
+          if ids != expected: raise SystemExit(f'Expected eight game routes, found {sorted(ids)}')
+          for game in expected:
+              if not list((root/'assets').glob(f'{game}/card-art.svg')) and game not in {'snake','fire','chess'}:
+                  raise SystemExit(f'Missing original card art for {game}')
+          for svg in root.rglob('*.svg'):
+              import xml.etree.ElementTree as ET
+              ET.parse(svg)
+          if not (root/'assets/stockfish.wasm').is_file(): raise SystemExit('Missing local chess engine WASM')
+          print(f'Validated {len(refs)} page references, eight routes, SVG assets and chess engine artifact.')
           PY
 
-      - name: Install Playwright
-        run: npm install --no-save --no-package-lock playwright
+      - name: Run deterministic game logic tests
+        run: npm run test:logic
 
-      - name: Install Chromium
+      - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
 
-      - name: Start local arcade server
+      - name: Start local static arcade server
         run: |
-          python3 -m http.server 4173 --directory arcade > /tmp/side-room-server.log 2>&1 &
+          python3 -m http.server 4173 --bind 0.0.0.0 --directory arcade > /tmp/lantern-room-server.log 2>&1 &
           for attempt in $(seq 1 30); do
             if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then
-              echo "Arcade server is ready."
+              echo "Static arcade server is ready."
               exit 0
             fi
             sleep 1
           done
-          cat /tmp/side-room-server.log
+          cat /tmp/lantern-room-server.log
           exit 1
 
-      - name: Run responsive screenshots and gameplay regression tests
+      - name: Run Playwright gameplay, responsive and accessibility checks
         env:
           ARCADE_URL: http://127.0.0.1:4173/
-        run: node arcade/tests/smoke.mjs
+        run: npm run test:browser
 
-      - name: Upload visual test screenshots
+      - name: Upload QA screenshots and accessibility findings
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: side-room-viewport-screenshots
+          name: lantern-room-arcade-qa
           path: artifacts/
           if-no-files-found: ignore
           retention-days: 30
 
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Prepare GitHub Pages site structure
+      - name: Prepare the repository-subpath Pages site
         run: |
           mkdir -p _site/arcade
           cp arcade/index.html arcade/THIRD_PARTY_NOTICES.md _site/arcade/
           cp -R arcade/css arcade/js arcade/assets _site/arcade/
           cat > _site/index.html <<'HTML'
           <!doctype html>
-          <html lang="en">
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <meta http-equiv="refresh" content="0;url=./arcade/">
-            <title>The Side Room</title>
-            <style>
-              body{margin:0;min-height:100vh;display:grid;place-items:center;background:#18231f;color:#eee7d8;font:16px Georgia,serif}
-              main{padding:34px;text-align:center;border:1px solid #536255;background:#202d27}
-              a{display:inline-block;margin-top:16px;padding:12px 20px;background:#d0d9bd;color:#202c23;text-decoration:none;font:700 11px monospace;letter-spacing:.1em}
-            </style>
-          </head>
-          <body><main><h1>The Side Room</h1><p>Opening the games…</p><a href="./arcade/">ENTER THE SIDE ROOM</a></main></body>
-          </html>
+          <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=./arcade/"><title>Lantern Room Arcade</title></head>
+          <body><main><h1>Lantern Room Arcade</h1><p>Opening the games…</p><a href="./arcade/">Enter the arcade</a></main></body></html>
           HTML
 
       - name: Upload Pages artifact
@@ -125,6 +139,6 @@ jobs:
         with:
           path: ./_site
 
-      - name: Deploy arcade
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

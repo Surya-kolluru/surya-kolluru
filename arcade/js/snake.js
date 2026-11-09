@@ -37,7 +37,7 @@ export class SnakeGame{
     this.direction={x:1,y:0};this.queue=[];this.score=0;this.level=1;this.interval=145;
     this.accumulator=0;this.particles=[];this.floaters=[];this.state="ready";this.placeFood();
     this.updateHud();this.overlay("A LITTLE ARCADE CLASSIC","Ready for a round?","Collect the apples, grow carefully and keep your tail out of trouble.","START PLAYING");
-    this.$("snake-pause").textContent="PAUSE";this.render(1);
+    this.$("snake-pause").textContent="PAUSE";this.$("snake-pause").disabled=false;this.render(1);
   }
   restart(){this.reset();this.audio.play("snake-start")}
   placeFood(){
@@ -59,7 +59,7 @@ export class SnakeGame{
   start(){
     if(this.state==="over")this.reset();
     if(this.state==="playing")return;
-    this.state="playing";this.$("snake-overlay").hidden=true;this.$("snake-pause").textContent="PAUSE";
+    this.state="playing";this.$("snake-overlay").hidden=true;this.$("snake-pause").textContent="PAUSE";this.$("snake-pause").disabled=false;
     this.$("snake-start").textContent="RESUME";this.audio.unlock();this.audio.play("snake-start");
   }
   togglePause(){
@@ -77,7 +77,7 @@ export class SnakeGame{
     this.overlay(won?"GARDEN COMPLETE":"ROUND OVER",won?"Every apple collected.":"That was a close turn.",
       won?"You filled the whole garden. A perfect run.":`You collected ${this.score/10} apples and grew to ${this.body.length} segments. Best: ${this.best} points.`,
       "PLAY ANOTHER ROUND");
-    this.$("snake-pause").textContent="PAUSE";
+    this.$("snake-pause").textContent="PAUSE";this.$("snake-pause").disabled=true;
   }
   step(){
     if(this.queue.length)this.direction=this.queue.shift();
@@ -95,7 +95,7 @@ export class SnakeGame{
       if(this.score>this.best){this.best=this.score;storage.setBest("snake",this.best)}
       const nextLevel=1+Math.floor(this.score/80);
       if(nextLevel>this.level){this.level=nextLevel;this.audio.play("snake-level")}
-      this.interval=clamp(145-(this.level-1)*5,88,145);this.placeFood();
+      this.interval=clamp(145-(this.level-1)*5,88,145);this.placeFood();if(this.state!=="playing")return;
     }else this.body.pop();
     this.updateHud();
   }
