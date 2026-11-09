@@ -40,6 +40,7 @@ async function openGame(name,scroll=true){
   }
   current=name;
   $("game-library").hidden=true;
+  $("arcade-home").hidden=true;
   $("play-room").hidden=false;
   $("room-title").textContent=descriptions[name].title;
   $("room-kicker").textContent=descriptions[name].kicker;
@@ -54,7 +55,7 @@ async function openGame(name,scroll=true){
 }
 function backToLibrary(){
   current=null;snake.setActive(false);fire.setActive(false);chess?.setActive(false);
-  $("play-room").hidden=true;$("game-library").hidden=false;history.replaceState(null,"",location.pathname);
+  $("play-room").hidden=true;$("game-library").hidden=false;$("arcade-home").hidden=false;history.replaceState(null,"",location.pathname);
   $("arcade-home").scrollIntoView({behavior:"smooth",block:"start"});
 }
 document.querySelectorAll("[data-open-game]").forEach(button=>button.addEventListener("click",()=>openGame(button.dataset.openGame)));
