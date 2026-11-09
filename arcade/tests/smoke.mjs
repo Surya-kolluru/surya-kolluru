@@ -76,6 +76,7 @@ try{
   assert.equal(snakeChecks.wall.state,"over","Wall collision should end the round");
   assert.equal(snakeChecks.reverseBlocked,true,"Immediate reverse direction should be rejected");
 
+  await page.locator("#back-to-library").click();
   await openGame(page,"fire");
   await page.locator("#fire-start").click(); // Unlock Web Audio with a real user gesture.
   const fireChecks=await page.evaluate(()=>{
