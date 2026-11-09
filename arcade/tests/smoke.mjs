@@ -46,6 +46,13 @@ try{
       if(game==="snake"&&viewport.width<=850){
         const display=await page.locator("#snake-pad").evaluate(el=>getComputedStyle(el).display);
         assert.notEqual(display,"none",viewport.name+" should show Snake touch pad");
+        await page.locator('[data-snake-dir="up"]').dispatchEvent("pointerdown");
+        assert.deepEqual(await page.evaluate(()=>window.__sideRoomTest.snake.queue.at(-1)),{x:0,y:-1},"Mobile Snake pad should change direction");
+      }
+      if((viewport.name==="1920x1080"||viewport.name==="390x844")&&(game==="snake"||game==="fire")){
+        await page.locator(game==="snake"?"#snake-start":"#fire-start").click();
+        await page.waitForTimeout(650);
+        await page.screenshot({path:`artifacts/${viewport.name}-${game}-playing.png`,fullPage:true});
       }
       await page.locator("#back-to-library").click();
     }
