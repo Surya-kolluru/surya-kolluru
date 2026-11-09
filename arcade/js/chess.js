@@ -168,10 +168,12 @@ export class ChessGame{
     const board=this.chess.board();for(const row of board)for(const p of row)if(p&&p.type==="k"&&p.color===color)return p.square;return null;
   }
   status(title,detail){this.$("chess-status").textContent=title;this.$("chess-substatus").textContent=detail}
-  copyPGN(){
+  async copyPGN(){
     const pgn=this.chess.pgn();
     if(!pgn){this.status("No moves yet","Make a move before copying a game score.");return}
-    navigator.clipboard?.writeText(pgn).then(()=>this.status("PGN copied","The game score is on your clipboard.")).catch(()=>this.status("Clipboard unavailable","Your browser did not allow clipboard access."));
+    if(!navigator.clipboard?.writeText){this.status("Clipboard unavailable","Your browser does not allow clipboard access.");return}
+    try{await navigator.clipboard.writeText(pgn);this.status("PGN copied","The game score is on your clipboard.")}
+    catch{this.status("Clipboard unavailable","Your browser did not allow clipboard access.")}
   }
   update(dt){
     if(!this.active||!this.clockStarted||this.terminal())return;
