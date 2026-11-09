@@ -1,21 +1,23 @@
 import {storage} from "./storage.js";
 export class AudioSystem{
   constructor(){
-    this.prefs=storage.getAudio();this.ctx=null;this.master=null;this.effectsBus=null;this.musicBus=null;this.musicNodes=[];
+    this.prefs={effectsVolume:.72,musicVolume:.22,...storage.getAudio()};this.ctx=null;this.master=null;this.effectsBus=null;this.musicBus=null;this.musicNodes=[];
   }
   ensure(){
     if(this.ctx)return this.ctx;
     const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return null;
     this.ctx=new Ctx();this.master=this.ctx.createGain();this.effectsBus=this.ctx.createGain();this.musicBus=this.ctx.createGain();
     this.effectsBus.connect(this.master);this.musicBus.connect(this.master);this.master.connect(this.ctx.destination);
-    this.master.gain.value=this.prefs.volume;this.effectsBus.gain.value=this.prefs.effects?1:0;this.musicBus.gain.value=this.prefs.music?.22:0;
+    this.master.gain.value=this.prefs.volume;this.effectsBus.gain.value=this.prefs.effects?this.prefs.effectsVolume:0;this.musicBus.gain.value=this.prefs.music?this.prefs.musicVolume:0;
     if(this.prefs.music)this.startMusic();return this.ctx;
   }
   unlock(){const c=this.ensure();if(c?.state==="suspended")c.resume();return !!c}
   save(){storage.setAudio(this.prefs)}
-  setEffects(value){this.prefs.effects=!!value;this.ensure();if(this.effectsBus)this.effectsBus.gain.setTargetAtTime(value?1:0,this.ctx.currentTime,.025);this.save()}
-  setMusic(value){this.prefs.music=!!value;this.ensure();if(!this.ctx)return;if(value)this.startMusic();else this.stopMusic();this.musicBus.gain.setTargetAtTime(value?.22:0,this.ctx.currentTime,.2);this.save()}
+  setEffects(value){this.prefs.effects=!!value;this.ensure();if(this.effectsBus)this.effectsBus.gain.setTargetAtTime(value?this.prefs.effectsVolume:0,this.ctx.currentTime,.025);this.save()}
+  setMusic(value){this.prefs.music=!!value;this.ensure();if(!this.ctx)return;if(value)this.startMusic();else this.stopMusic();this.musicBus.gain.setTargetAtTime(value?this.prefs.musicVolume:0,this.ctx.currentTime,.2);this.save()}
   setVolume(value){this.prefs.volume=Math.max(0,Math.min(1,Number(value)));this.ensure();if(this.master)this.master.gain.setTargetAtTime(this.prefs.volume,this.ctx.currentTime,.03);this.save()}
+  setEffectsVolume(value){this.prefs.effectsVolume=Math.max(0,Math.min(1,Number(value)));this.ensure();if(this.effectsBus)this.effectsBus.gain.setTargetAtTime(this.prefs.effects?this.prefs.effectsVolume:0,this.ctx.currentTime,.03);this.save()}
+  setMusicVolume(value){this.prefs.musicVolume=Math.max(0,Math.min(.4,Number(value)));this.ensure();if(this.musicBus)this.musicBus.gain.setTargetAtTime(this.prefs.music?this.prefs.musicVolume:0,this.ctx.currentTime,.05);this.save()}
   state(){return {...this.prefs}}
   tone(freq,duration=.09,wave="sine",volume=.12,slide=null,detune=0){
     const c=this.ensure();if(!c||!this.prefs.effects)return;
