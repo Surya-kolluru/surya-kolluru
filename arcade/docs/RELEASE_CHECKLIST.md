@@ -1,7 +1,7 @@
 # Release Checklist — Lantern Room Arcade
 
 **Current branch:** `arena/4934e8f3-surya-kolluru`
-**Status:** Local implementation and test suite pass; GitHub PR/Pages deployment and live-site verification are pending.
+**Status:** Implementation is committed and pushed; PR #1 is open and its verification workflow passed. Pages deployment and live-site verification are pending approval of the provisional working title.
 
 ## Implemented and locally verified
 
@@ -19,9 +19,10 @@
 
 ## Required before public release
 
-- [ ] Commit and push this working branch, then open a PR to `main`.
-- [ ] Require GitHub Actions verification (logic, browser, screenshots and accessibility checks) to pass; fix and rerun if any job fails.
-- [ ] Merge only after checks pass so the main-branch Pages workflow can deploy.
+- [x] Commit and push this working branch; PR #1 is open against `main`.
+- [x] GitHub Actions verification passed on the PR (logic, browser, screenshots and accessibility checks); PR deployment job was correctly skipped.
+- [ ] Approve or replace the provisional title “Lantern Room Arcade”; confirm whether any needed naming/trademark review is complete.
+- [ ] Merge only after checks and title approval so the main-branch Pages workflow can deploy.
 - [ ] Confirm the deployment workflow succeeds and the correct URL is published: `https://surya-kolluru.github.io/surya-kolluru/arcade/`.
 - [ ] Run browser smoke checks against that live URL and verify all eight routes, local Stockfish worker/WASM, README links and project-subpath assets.
 - [ ] Record the deployed commit and workflow run in the final report.
