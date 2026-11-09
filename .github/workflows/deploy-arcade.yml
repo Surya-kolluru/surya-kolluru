@@ -1,4 +1,4 @@
-name: Deploy Surya Arcade to GitHub Pages
+name: Test and deploy The Side Room
 
 on:
   push:
@@ -6,7 +6,9 @@ on:
       - main
     paths:
       - "arcade/**"
+      - "assets/arcade-preview.svg"
       - ".github/workflows/deploy-arcade.yml"
+      - "README.md"
   workflow_dispatch:
 
 permissions:
@@ -19,7 +21,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  verify-and-deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -28,24 +30,68 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js for script validation
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
-      - name: Validate arcade JavaScript
+      - name: Check every game module
+        run: |
+          set -e
+          for file in arcade/js/*.js; do
+            echo "Checking $file"
+            node --check "$file"
+          done
+
+      - name: Check required local assets and styles
         run: |
           python - <<'PY'
           from pathlib import Path
           import re
-          html = Path("arcade/index.html").read_text(encoding="utf-8")
-          scripts = re.findall(r"<script\b[^>]*>(.*?)</script>", html, flags=re.S)
-          if len(scripts) != 1:
-              raise SystemExit(f"Expected one game module, found {len(scripts)}")
-          Path("/tmp/arcade.mjs").write_text(scripts[0], encoding="utf-8")
-          print("Extracted arcade module for syntax validation.")
+          root = Path("arcade")
+          html = (root / "index.html").read_text(encoding="utf-8")
+          required = re.findall(r'(?:href|src)="(\./[^"]+)"', html)
+          missing = [p for p in required if not (root / p[2:]).is_file()]
+          if missing:
+              raise SystemExit("Missing local files: " + ", ".join(missing))
+          for js in (root / "js").glob("*.js"):
+              if js.stat().st_size < 100:
+                  raise SystemExit(f"Unexpectedly small JS module: {js}")
+          print(f"Validated {len(required)} local HTML references and {len(list((root / 'js').glob('*.js')))} JavaScript modules.")
           PY
-          node --check /tmp/arcade.mjs
+
+      - name: Install Playwright
+        run: npm install --no-save --no-package-lock playwright
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Start local arcade server
+        run: |
+          python3 -m http.server 4173 --directory arcade > /tmp/side-room-server.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then
+              echo "Arcade server is ready."
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/side-room-server.log
+          exit 1
+
+      - name: Run responsive screenshots and gameplay regression tests
+        env:
+          ARCADE_URL: http://127.0.0.1:4173/
+        run: node arcade/tests/smoke.mjs
+
+      - name: Upload visual test screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: side-room-viewport-screenshots
+          path: artifacts/
+          if-no-files-found: ignore
+          retention-days: 30
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
@@ -53,7 +99,8 @@ jobs:
       - name: Prepare GitHub Pages site structure
         run: |
           mkdir -p _site/arcade
-          cp arcade/index.html _site/arcade/index.html
+          cp arcade/index.html arcade/THIRD_PARTY_NOTICES.md _site/arcade/
+          cp -R arcade/css arcade/js arcade/assets _site/arcade/
           cat > _site/index.html <<'HTML'
           <!doctype html>
           <html lang="en">
@@ -61,18 +108,18 @@ jobs:
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <meta http-equiv="refresh" content="0;url=./arcade/">
-            <title>Surya Arcade</title>
+            <title>The Side Room</title>
             <style>
-              body{margin:0;min-height:100vh;display:grid;place-items:center;background:#050a08;color:#e8fff0;font:16px system-ui}
-              main{padding:32px;text-align:center;border:1px solid #24633b;border-radius:18px;background:#0b1710}
-              a{display:inline-block;margin-top:16px;padding:12px 20px;border-radius:9px;background:#39ff88;color:#06200f;text-decoration:none;font-weight:800}
+              body{margin:0;min-height:100vh;display:grid;place-items:center;background:#18231f;color:#eee7d8;font:16px Georgia,serif}
+              main{padding:34px;text-align:center;border:1px solid #536255;background:#202d27}
+              a{display:inline-block;margin-top:16px;padding:12px 20px;background:#d0d9bd;color:#202c23;text-decoration:none;font:700 11px monospace;letter-spacing:.1em}
             </style>
           </head>
-          <body><main><h1>Surya Arcade</h1><p>Opening the games…</p><a href="./arcade/">ENTER ARCADE</a></main></body>
+          <body><main><h1>The Side Room</h1><p>Opening the games…</p><a href="./arcade/">ENTER THE SIDE ROOM</a></main></body>
           </html>
           HTML
 
-      - name: Upload arcade site
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: ./_site
