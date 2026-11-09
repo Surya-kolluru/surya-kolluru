@@ -115,7 +115,7 @@ export class ChessGame{
         if(this.lastMove&&(this.lastMove.from===square||this.lastMove.to===square))btn.classList.add("last");
         if(checked===square)btn.classList.add("in-check");
         if(targets.has(square)&&piece)btn.classList.add("has-capture");
-        btn.setAttribute("role","gridcell");
+        btn.dataset.square=square;btn.setAttribute("role","gridcell");
         btn.setAttribute("aria-label",square+(piece?", "+(piece.color==="w"?"white ":"black ")+PIECES[piece.type]:" empty")+(targets.has(square)?", legal destination":""));
         if(piece){btn.innerHTML=this.pieceMarkup(piece.color,piece.type)}
         if(targets.has(square)){const dot=document.createElement("span");dot.className="legal-dot";btn.appendChild(dot)}
