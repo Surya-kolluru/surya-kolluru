@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">North Ridge valley at dusk</title>
+<desc id="desc">A layered forest valley with distant blue mountains, fir woods, timber cabins and a small fire lookout tower.</desc>
+<defs>
+ <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#314d59"/><stop offset=".52" stop-color="#8a9a91"/><stop offset="1" stop-color="#d6ad83"/></linearGradient>
+ <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#61797b"/><stop offset="1" stop-color="#73877c"/></linearGradient>
+ <linearGradient id="mid" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#415d55"/><stop offset="1" stop-color="#2c4a40"/></linearGradient>
+ <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#536b4c"/><stop offset="1" stop-color="#253d31"/></linearGradient>
+ <linearGradient id="tower" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b98a5c"/><stop offset="1" stop-color="#694d3b"/></linearGradient>
+ <filter id="soft"><feGaussianBlur stdDeviation="18"/></filter>
+ <pattern id="grain" width="70" height="70" patternUnits="userSpaceOnUse"><circle cx="9" cy="12" r="1.1" fill="#fff" opacity=".11"/><circle cx="41" cy="51" r=".8" fill="#1b302b" opacity=".17"/></pattern>
+</defs>
+<rect width="1200" height="720" fill="url(#sky)"/>
+<circle cx="960" cy="128" r="58" fill="#f2d6aa" opacity=".7"/>
+<ellipse cx="940" cy="174" rx="170" ry="70" fill="#e6bd94" opacity=".2" filter="url(#soft)"/>
+<g fill="#dce0d3" opacity=".17">
+ <path d="M-30 145q90-53 181-15 55-45 124-12 77-8 116 48-100-17-164 16-110-42-257 12Z"/>
+ <path d="M615 116q84-56 157-20 60-51 135-16 55-5 119 46-97-13-168 20-125-49-243 12Z"/>
+</g>
+<path d="M0 380 106 233l78 76 126-185 110 147 105-107 99 136 116-180 115 151 95-94 103 125 111-139 104 120v251H0Z" fill="url(#far)"/>
+<path d="m90 267 40-34 52 58-24-8-21 18Zm220-143 43 63 42-13 25 44-76-30Zm330 1 41 57 50-12 25 38-78-26Zm233 32 54 68 48-20 36 51-101-35Z" fill="#d2d5c8" opacity=".48"/>
+<path d="M0 454 80 349l67 51 99-128 89 110 102-88 100 115 98-112 112 112 99-95 95 89 89-79 70 86v310H0Z" fill="url(#mid)"/>
+<path d="M0 522q114-95 254-36 116-86 229-8 140-105 262-5 132-85 258-20 119-69 197-4v271H0Z" fill="url(#ground)"/>
+<path d="M0 580q152-62 291-13 139-75 270-2 180-53 330 8 169-44 309 17v130H0Z" fill="#304a36"/>
+<g fill="#264438">
+ <path d="M-20 478 18 344l38 134ZM38 490 79 318l41 172Zm80 7 39-152 43 152Zm855-23 41-156 42 156Zm70 17 43-180 45 180Zm82 9 33-141 36 141Z"/>
+ <path d="M0 516 44 387l45 129Zm103 5 45-165 49 165Zm160-14 37-128 38 128Zm140 15 45-159 46 159Zm478-12 42-151 43 151Zm131 2 42-158 43 158Z" opacity=".75"/>
+</g>
+<g fill="#1e392f" opacity=".9">
+ <path d="M0 600 29 495l29 105Zm45 15 31-135 30 135Zm90-7 40-160 39 160Zm116 9 33-127 34 127Zm123-13 42-160 41 160Zm155 14 36-145 37 145Zm178-13 45-175 45 175Zm143 10 38-146 38 146Zm139 5 44-159 45 159Zm139-8 41-142 42 142Z"/>
+</g>
+<!-- Far cottages -->
+<g stroke="#513f34" stroke-width="5" stroke-linejoin="round">
+ <g transform="translate(145 505)"><path d="M0 43 67 0l65 43v86H0Z" fill="#9d7650"/><path d="m-10 44 77-57 76 57" fill="none" stroke="#664b3b" stroke-width="12"/><path d="M52 129V75h28v54" fill="#384d43"/><path d="M15 67h22v24H15Z" fill="#d7bb8d" stroke="#5d5140"/></g>
+ <g transform="translate(936 500)"><path d="M0 39 55 0l58 39v80H0Z" fill="#a47c55"/><path d="m-9 40 64-52 66 52" fill="none" stroke="#604635" stroke-width="12"/><path d="M45 119V72h26v47" fill="#3b5145"/><path d="M13 61h19v21H13Z" fill="#e4c899" stroke="#5d5140"/></g>
+</g>
+<!-- Lookout tower -->
+<g stroke="#594637" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M539 590 565 368M659 590 634 368" fill="none" stroke="#72513b" stroke-width="15"/>
+ <path d="m550 501 93-98M649 501l-92-98M557 437l80 91M639 437l-79 91M548 550l102-94" fill="none" stroke="#a27a53" stroke-width="8"/>
+ <path d="M526 375h151v-78H526Z" fill="#b58a5e" stroke="#674b38" stroke-width="8"/>
+ <path d="m510 300 16-41h150l18 41Z" fill="#69503e" stroke="#4d3b31" stroke-width="8"/>
+ <path d="M548 332h34v27h-34Zm72 0h35v27h-35Z" fill="#354c49" stroke="#d5b483" stroke-width="4"/>
+ <path d="M523 375h158M537 387h130" stroke="#d1aa79" stroke-width="5"/>
+</g>
+<path d="M538 595h123" stroke="#8a6b4f" stroke-width="15" stroke-linecap="round"/>
+<!-- Foreground grass -->
+<g stroke="#8da078" stroke-width="3" opacity=".46" fill="none"><path d="M52 704q-5-18 5-34m4 34q-4-14 8-26m68 27q-2-16 9-29m-6 29q8-19 18-25m865 25q-8-16 1-33m8 33q0-18 13-28m89 28q-8-20 3-34"/></g>
+<rect width="1200" height="720" fill="url(#grain)" opacity=".7"/>
+</svg>
