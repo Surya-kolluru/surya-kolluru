@@ -58,6 +58,7 @@ try{
   page.on("console",msg=>{if(msg.type()==="error")browserErrors.push("gameplay: "+msg.text())});
   await page.goto(base+"?test=1#snake",{waitUntil:"domcontentloaded"});
   await page.waitForFunction(()=>!!window.__sideRoomTest);
+  await page.locator("#snake-start").click(); // Unlock Web Audio with a real user gesture.
   const snakeChecks=await page.evaluate(()=>{
     const g=window.__sideRoomTest.snake;
     g.reset();g.start();g.food={x:g.body[0].x+1,y:g.body[0].y};g.update(.16);
@@ -76,6 +77,7 @@ try{
   assert.equal(snakeChecks.reverseBlocked,true,"Immediate reverse direction should be rejected");
 
   await openGame(page,"fire");
+  await page.locator("#fire-start").click(); // Unlock Web Audio with a real user gesture.
   const fireChecks=await page.evaluate(()=>{
     const g=window.__sideRoomTest.fire;
     const target=()=>({x:600,y:500,vx:0,vy:0,size:22,health:1,maxHealth:1,phase:0,age:0,smokeClock:0,seed:0});
