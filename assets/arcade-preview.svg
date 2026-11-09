@@ -1,47 +1,52 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="390" viewBox="0 0 1200 390" role="img" aria-labelledby="title desc">
-<title id="title">Surya Arcade — Snake, Fire Watch and Chess</title>
-<desc id="desc">Three terminal-inspired arcade panels for Snake, Fire Watch and Chess, in the same dark green profile style.</desc>
+<title id="title">The Side Room — Snake, Fire Watch and Chess</title>
+<desc id="desc">Three original browser games presented as a compact terminal-inspired arcade menu.</desc>
 <defs>
- <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#07130b"/><stop offset="1" stop-color="#020704"/></linearGradient>
- <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#174b2b" stroke-width=".7" opacity=".4"/></pattern>
+ <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0b1710"/><stop offset="1" stop-color="#030805"/></linearGradient>
+ <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#194b2d" stroke-width=".65" opacity=".42"/></pattern>
+ <linearGradient id="snake" x2="1"><stop stop-color="#b5d0a0"/><stop offset="1" stop-color="#527c57"/></linearGradient>
+ <linearGradient id="fire" x2="0" y2="1"><stop stop-color="#e7c58a"/><stop offset="1" stop-color="#9d4d37"/></linearGradient>
+ <linearGradient id="chess" x2="0" y2="1"><stop stop-color="#d9d0b9"/><stop offset="1" stop-color="#6d866f"/></linearGradient>
 </defs>
-<rect width="1200" height="390" rx="20" fill="url(#bg)"/>
-<rect x="1" y="1" width="1198" height="388" rx="19" fill="url(#grid)" stroke="#286c40"/>
-<text x="46" y="48" fill="#39ff88" font-family="monospace" font-size="13" letter-spacing="3">surya@arcade:~$ ./launch-games</text>
-<text x="46" y="96" fill="#c8ffda" font-family="monospace" font-size="34" font-weight="700">THREE GAMES. ONE ARCADE.</text>
-<text x="49" y="124" fill="#6aa27b" font-family="monospace" font-size="13">PICK A GAME  //  PLAY IN YOUR BROWSER  //  BEAT YOUR BEST</text>
-<g transform="translate(42 158)">
- <rect width="354" height="190" rx="12" fill="#040b06" stroke="#39ff88"/>
- <rect x="10" y="10" width="334" height="170" rx="8" fill="none" stroke="#164d2b"/>
- <text x="24" y="38" fill="#91ffb0" font-family="monospace" font-size="13">01 / SNAKE</text>
- <g transform="translate(30 65)">
-  <path d="M15 74H74V49H123V25H174" fill="none" stroke="#39ff88" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="181" cy="25" r="8" fill="#39ff88"/><circle cx="184" cy="22" r="2" fill="#06200e"/>
-  <circle cx="241" cy="64" r="9" fill="#ffbc62"/><path d="M239 55q1-10 10-14" stroke="#70d68f" fill="none" stroke-width="3"/>
- </g>
- <text x="24" y="168" fill="#6ca57c" font-family="monospace" font-size="11">COLLECT · GROW · SURVIVE</text>
+<rect width="1200" height="390" rx="19" fill="url(#bg)"/>
+<rect x="1" y="1" width="1198" height="388" rx="18" fill="url(#grid)" stroke="#2a7544" stroke-width="1.3"/>
+<text x="44" y="43" fill="#83b994" font-family="monospace" font-size="12" letter-spacing="2.7">surya@side-room:~$ ./open-games</text>
+<text x="44" y="91" fill="#e2ffea" font-family="monospace" font-size="34" font-weight="700">THE SIDE ROOM</text>
+<text x="47" y="119" fill="#72aa82" font-family="monospace" font-size="12" letter-spacing="1.2">THREE GAMES  /  ONE QUIET CORNER  /  PLAY IN YOUR BROWSER</text>
+<g transform="translate(42 150)">
+ <rect width="354" height="198" rx="10" fill="#07120b" stroke="#426f4d"/>
+ <text x="19" y="29" fill="#a9d5aa" font-family="monospace" font-size="12" letter-spacing="1.3">01 / SNAKE</text>
+ <text x="330" y="29" text-anchor="end" fill="#60896c" font-family="monospace" font-size="10">GARDEN GRID</text>
+ <rect x="18" y="44" width="318" height="126" rx="4" fill="#d9dfc9"/>
+ <path d="M18 76H336M18 108H336M18 140H336M50 44V170M82 44V170M114 44V170M146 44V170M178 44V170M210 44V170M242 44V170M274 44V170M306 44V170" stroke="#c2cdb5" stroke-width="1"/>
+ <path d="M75 142h44v-32h44V78h44" fill="none" stroke="#527a58" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+ <circle cx="207" cy="78" r="10" fill="#527a58"/><circle cx="210" cy="75" r="2" fill="#eff0d9"/>
+ <path d="M269 132c-10-12-6-24 5-29 11 0 16 10 12 21-4 11-12 13-17 8Z" fill="#b85a44"/><path d="M278 105q-3-9 5-14" stroke="#617f55" stroke-width="3" fill="none"/>
+ <text x="19" y="188" fill="#7fac86" font-family="monospace" font-size="10" letter-spacing=".8">COLLECT / GROW / SURVIVE</text>
 </g>
-<g transform="translate(423 158)">
- <rect width="354" height="190" rx="12" fill="#080906" stroke="#d9784e"/>
- <rect x="10" y="10" width="334" height="170" rx="8" fill="none" stroke="#57301c"/>
- <text x="24" y="38" fill="#ffc18f" font-family="monospace" font-size="13">02 / FIRE WATCH</text>
- <g transform="translate(42 63)">
-  <path d="M118 90c-22-17-15-37-1-53 2 14 10 11 9-10 19 19 29 40 10 63Z" fill="#e26e42"/>
-  <path d="M125 88c-8-12-2-21 5-30 9 12 11 21 2 30Z" fill="#ffd074"/>
-  <path d="M120 110V84m-18 26h36" stroke="#39ff88" stroke-width="5" stroke-linecap="round"/>
-  <circle cx="35" cy="28" r="7" fill="#ff8a4d"/><circle cx="211" cy="20" r="6" fill="#ffb25f"/>
- </g>
- <text x="24" y="168" fill="#bd855f" font-family="monospace" font-size="11">AIM · SHOOT · DEFEND</text>
+<g transform="translate(423 150)">
+ <rect width="354" height="198" rx="10" fill="#0b1110" stroke="#8d644e"/>
+ <text x="19" y="29" fill="#e2b58c" font-family="monospace" font-size="12" letter-spacing="1.3">02 / FIRE WATCH</text>
+ <text x="330" y="29" text-anchor="end" fill="#aa7655" font-family="monospace" font-size="10">NORTH RIDGE</text>
+ <rect x="18" y="44" width="318" height="126" rx="4" fill="#536a6b"/>
+ <circle cx="273" cy="68" r="14" fill="#e8d1a9" opacity=".8"/>
+ <path d="M18 120 64 75l39 35 48-54 52 70 53-50 80 60v40H18Z" fill="#718778"/>
+ <path d="M18 140 79 104l44 36 68-45 53 38 54-26 38 26v37H18Z" fill="#324f42"/>
+ <path d="M18 158q73-30 145 2t173-6v16H18Z" fill="#263e33"/>
+ <path d="M144 169v-58h35v58m-42-57 25-19 24 19" stroke="#66503c" stroke-width="5" fill="#ad855b"/>
+ <path d="M159 92q-9-13 1-24 2 10 9 1 9 13-3 24Z" fill="#d6784b"/><path d="M161 91q-4-7 3-14 6 9 1 14Z" fill="#f0d08b"/>
+ <text x="19" y="188" fill="#bf8d68" font-family="monospace" font-size="10" letter-spacing=".8">AIM / COOL / PROTECT</text>
 </g>
-<g transform="translate(804 158)">
- <rect width="354" height="190" rx="12" fill="#040b06" stroke="#8dbb91"/>
- <rect x="10" y="10" width="334" height="170" rx="8" fill="none" stroke="#244d2e"/>
- <text x="24" y="38" fill="#c5ffd1" font-family="monospace" font-size="13">03 / CHESS</text>
- <g transform="translate(105 55)">
-  <rect x="0" y="0" width="144" height="88" fill="#d8d1bd"/>
-  <g fill="#81967a"><rect width="36" height="22"/><rect x="72" width="36" height="22"/><rect x="36" y="22" width="36" height="22"/><rect x="108" y="22" width="36" height="22"/><rect y="44" width="36" height="22"/><rect x="72" y="44" width="36" height="22"/><rect x="36" y="66" width="36" height="22"/><rect x="108" y="66" width="36" height="22"/></g>
-  <text x="72" y="74" text-anchor="middle" fill="#f9f3e4" stroke="#273a2d" stroke-width="1.5" paint-order="stroke" font-family="serif" font-size="74">♞</text>
+<g transform="translate(804 150)">
+ <rect width="354" height="198" rx="10" fill="#07120b" stroke="#69866b"/>
+ <text x="19" y="29" fill="#c6d9b7" font-family="monospace" font-size="12" letter-spacing="1.3">03 / CHESS</text>
+ <text x="330" y="29" text-anchor="end" fill="#78947a" font-family="monospace" font-size="10">OLD CLUB ROOM</text>
+ <rect x="18" y="44" width="318" height="126" rx="4" fill="#d8d0bd"/>
+ <g transform="translate(103 52)">
+  <rect width="126" height="112" fill="#e8dfcc"/>
+  <g fill="#829579"><rect width="31.5" height="28"/><rect x="63" width="31.5" height="28"/><rect x="31.5" y="28" width="31.5" height="28"/><rect x="94.5" y="28" width="31.5" height="28"/><rect y="56" width="31.5" height="28"/><rect x="63" y="56" width="31.5" height="28"/><rect x="31.5" y="84" width="31.5" height="28"/><rect x="94.5" y="84" width="31.5" height="28"/></g>
+  <text x="64" y="91" text-anchor="middle" fill="#f7f0df" stroke="#354234" stroke-width="1.8" paint-order="stroke" font-family="Georgia,serif" font-size="86">♞</text>
  </g>
- <text x="24" y="168" fill="#8dbb91" font-family="monospace" font-size="11">TWO PLAYERS · STANDARD RULES</text>
+ <text x="19" y="188" fill="#8eac8a" font-family="monospace" font-size="10" letter-spacing=".8">TWO PLAYERS / PROPER RULES</text>
 </g>
 </svg>
