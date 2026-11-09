@@ -113,13 +113,13 @@ export class FireWatchGame{
     if(this.announcement>0){this.announcement-=dt;if(this.announcement<=0)this.$("fire-announcement").hidden=true}
     if(this.state!=="playing")return;
     this.windClock+=dt;
-    if(this.windClock>4.5){this.windClock=0;this.windTarget=(Math.random()-.5)*2*(this.stage>=4?55:this.stage>=3?32:14)}
+    if(this.windClock>4.5){this.windClock=0;this.windTarget=(Math.random()-.5)*2*(this.stage>=4?55:this.stage>=3?32:14);this.updateHud()}
     const weather=this.weather();this.wind=lerp(this.wind,this.stage<=2?weather.strength*this.windTarget/14:this.windTarget,Math.min(1,dt*.7));
     this.spawnClock+=dt;
     const interval=[0,1.7,1.4,1.1,.82][this.stage],limit=4+this.stage*2;
     if(this.spawnClock>interval&&this.fires.length<limit){this.spawnClock=0;this.spawnFire()}
     for(let i=this.fires.length-1;i>=0;i--){
-      const f=this.fires[i];f.age+=dt;f.phase+=dt*(5+this.stage*.35);f.x+=f.vx*f.size*0+f.vx*(42+this.stage*9)*dt+this.wind*dt;f.y+=f.vy*(45+this.stage*8)*dt;
+      const f=this.fires[i];f.age+=dt;f.phase+=dt*(5+this.stage*.35);f.x+=f.vx*(42+this.stage*9)*dt+this.wind*dt;f.y+=f.vy*(45+this.stage*8)*dt;
       f.x=clamp(f.x,28,1172);f.smokeClock+=dt;
       if(f.smokeClock>.18){f.smokeClock=0;this.smoke.push({x:f.x+(Math.random()-.5)*10,y:f.y-f.size*.4,vx:(Math.random()-.5)*14+this.wind*.18,vy:-20-Math.random()*19,life:1.1+Math.random()*.6,size:f.size*.55})}
       if(f.y>594){this.fires.splice(i,1);this.loseLife(f.x,f.y);if(this.state!=="playing")return}
