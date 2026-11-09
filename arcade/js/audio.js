@@ -51,7 +51,12 @@ export class AudioSystem{
       "chess-move":()=>{this.noise(.045,.05,950);this.tone(340,.035,"triangle",.035)},
       "chess-capture":()=>{this.noise(.11,.09,500);this.tone(180,.09,"triangle",.05,110)},
       "chess-check":()=>{this.tone(660,.11,"sine",.08,510)},
-      "chess-end":()=>{this.tone(523,.18,"sine",.08,392);this.tone(392,.3,"sine",.06,294)}
+      "chess-end":()=>{this.tone(523,.18,"sine",.08,392);this.tone(392,.3,"sine",.06,294)},
+      "arcade-start":()=>{this.tone(440,.08,"triangle",.07,587);this.tone(587,.12,"sine",.05,784)},
+      "arcade-shot":()=>this.tone(480,.055,"square",.035,210),
+      "arcade-hit":()=>{this.tone(310,.07,"triangle",.05,180);this.noise(.06,.025,1500)},
+      "arcade-score":()=>{this.tone(660,.08,"triangle",.08,880);this.tone(880,.1,"sine",.05,1100)},
+      "arcade-over":()=>{this.tone(280,.2,"triangle",.06,185);this.tone(185,.28,"sine",.04,125)}
     };
     sounds[name]?.();
   }

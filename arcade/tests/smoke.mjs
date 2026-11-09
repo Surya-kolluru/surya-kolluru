@@ -12,11 +12,11 @@ const viewports=[
   {name:"360x800",width:360,height:800}
 ];
 await fs.mkdir("artifacts",{recursive:true});
-const browser=await chromium.launch({headless:true});
+const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_EXECUTABLE_PATH,args:["--no-sandbox"]}:{})});
 const browserErrors=[];
 async function openGame(page,name){
   await page.locator(`[data-open-game="${name}"]`).click();
-  await page.locator(`#${name}-panel`).waitFor({state:"visible",timeout:15000});
+  await page.locator(name==="lantern-maze"||name==="block-circuit"||name==="starline-siege"||name==="void-drifter"||name==="prism-breaker"?"#new-game-panel":`#${name}-panel`).waitFor({state:"visible",timeout:20000});
   if(name==="chess")await page.locator("#chess-board .chess-square").nth(63).waitFor();
   await page.waitForTimeout(180);
 }
@@ -25,6 +25,8 @@ try{
     const page=await browser.newPage({viewport:{width:viewport.width,height:viewport.height},deviceScaleFactor:1});
     page.on("pageerror",error=>browserErrors.push(viewport.name+": "+error.message));
     page.on("console",msg=>{if(msg.type()==="error")browserErrors.push(viewport.name+": "+msg.text())});
+    page.on("requestfailed",request=>browserErrors.push(viewport.name+" request: "+request.url()+" "+request.failure()?.errorText));
+    page.on("response",response=>{if(response.status()>=400)browserErrors.push(viewport.name+" HTTP "+response.status()+": "+response.url())});
     await page.goto(base+"?test=1",{waitUntil:"domcontentloaded"});
     await page.waitForFunction(()=>!!window.__sideRoomTest,{timeout:15000});
     await page.waitForTimeout(220);
@@ -34,11 +36,27 @@ try{
       cards:document.querySelectorAll("[data-open-game]").length,
       images:[...document.querySelectorAll(".game-card img")].every(img=>img.complete&&img.naturalWidth>0)
     }));
-    assert.equal(home.cards,3,viewport.name+" should show all three game cards");
+    assert.equal(home.cards,8,viewport.name+" should show all eight game cards");
     assert.equal(home.images,true,viewport.name+" game-card art should load");
+    if(viewport.name==="1440x900"){
+      await page.addScriptTag({path:"node_modules/axe-core/axe.min.js"});
+      const audit=await page.evaluate(()=>axe.run(document));
+      await fs.writeFile("artifacts/axe-home.json",JSON.stringify(audit.violations,null,2));
+      const critical=audit.violations.filter(v=>v.impact==="critical");
+      assert.equal(critical.length,0,"Critical accessibility findings: "+critical.map(v=>v.id).join(", "));
+    }
     assert.ok(home.width<=home.viewport+2,viewport.name+" home must not overflow horizontally");
     await page.screenshot({path:`artifacts/${viewport.name}-home.png`,fullPage:true});
-    for(const game of ["snake","fire","chess"]){
+    if(viewport.name==="1440x900"){
+      await page.locator("#attract-toggle").click();
+      const before=await page.locator(".game-card.attract-active").getAttribute("data-open-game");
+      await page.waitForTimeout(2900);
+      const after=await page.locator(".game-card.attract-active").getAttribute("data-open-game");
+      assert.notEqual(after,before,"Attract mode cycles its highlighted cabinet");
+      await page.screenshot({path:"artifacts/attract-mode.png",fullPage:true});
+      await page.locator("#attract-toggle").click();
+    }
+    for(const game of ["snake","fire","chess","lantern-maze","block-circuit","starline-siege","void-drifter","prism-breaker"]){
       await openGame(page,game);
       const state=await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:window.innerWidth}));
       assert.ok(state.width<=state.viewport+2,viewport.name+" "+game+" must not overflow horizontally");
@@ -51,8 +69,35 @@ try{
       }
       if((viewport.name==="1920x1080"||viewport.name==="390x844")&&(game==="snake"||game==="fire")){
         await page.locator(game==="snake"?"#snake-start":"#fire-start").click();
-        await page.waitForTimeout(650);
+        await page.waitForTimeout(350);
         await page.screenshot({path:`artifacts/${viewport.name}-${game}-playing.png`,fullPage:true});
+        if(viewport.name==="1920x1080"&&game==="snake"){await page.locator("#snake-pause").click();await page.screenshot({path:"artifacts/snake-paused.png",fullPage:true});await page.locator("#snake-start").click();await page.evaluate(()=>window.__sideRoomTest.snake.finish());await page.screenshot({path:"artifacts/snake-over.png",fullPage:true});await page.locator("#snake-start").click()}
+        if(viewport.name==="1920x1080"&&game==="fire"){await page.locator("#fire-pause").click();await page.screenshot({path:"artifacts/fire-paused.png",fullPage:true});await page.locator("#fire-pause").click();await page.evaluate(()=>{const g=window.__sideRoomTest.fire;g.loseLife(600,580);g.loseLife(600,580);g.loseLife(600,580)});await page.screenshot({path:"artifacts/fire-over.png",fullPage:true})}
+      }
+      if((viewport.name==="1920x1080"||viewport.name==="390x844")&&["lantern-maze","block-circuit","starline-siege","void-drifter","prism-breaker"].includes(game)){
+        await page.locator("#new-game-start").click();
+        await page.waitForTimeout(180);
+        assert.equal(await page.evaluate(()=>window.__sideRoomTest.newGame.state),"playing",game+" starts");
+        if(viewport.name==="1920x1080"&&game==="block-circuit"){
+          await page.locator("#new-game-panel [data-fullscreen]").click();
+          await page.waitForFunction(()=>!!document.fullscreenElement,{timeout:5000});
+          await page.locator("#new-game-panel [data-fullscreen]").click();
+          await page.waitForFunction(()=>!document.fullscreenElement,{timeout:5000});
+        }
+        if(game==="lantern-maze"){await page.keyboard.press("ArrowRight");await page.waitForTimeout(180);assert.ok(await page.evaluate(()=>window.__sideRoomTest.newGame.player.x>=2),"Maze accepts a direction key")}
+        if(game==="block-circuit"){const y=await page.evaluate(()=>window.__sideRoomTest.newGame.current.y);await page.keyboard.press("ArrowDown");assert.ok(await page.evaluate(y=>window.__sideRoomTest.newGame.current.y>=y, y),"Blocks accept soft drop")}
+        if(game==="starline-siege"){const box=await page.locator("#new-game-canvas").boundingBox();await page.mouse.click(box.x+box.width/2,box.y+box.height/2);assert.ok(await page.evaluate(()=>window.__sideRoomTest.newGame.bullets.length>0),"Shooter fires from an input action")}
+        if(game==="void-drifter"){await page.keyboard.down("ArrowUp");await page.waitForTimeout(100);await page.keyboard.up("ArrowUp");assert.ok(await page.evaluate(()=>Math.hypot(window.__sideRoomTest.newGame.ship.vx,window.__sideRoomTest.newGame.ship.vy)>0),"Drifter thrust responds");await page.keyboard.press(" ")}
+        if(game==="prism-breaker"){const box=await page.locator("#new-game-canvas").boundingBox();await page.mouse.click(box.x+box.width/2,box.y+box.height-30);assert.equal(await page.evaluate(()=>window.__sideRoomTest.newGame.ball.stuck),false,"Prism serves on tap")}
+        await page.screenshot({path:`artifacts/${viewport.name}-${game}-playing.png`,fullPage:true});
+        await page.locator("#new-game-pause").click();
+        assert.equal(await page.evaluate(()=>window.__sideRoomTest.newGame.state),"paused",game+" pauses");
+        if(viewport.name==="1920x1080")await page.screenshot({path:`artifacts/${game}-paused.png`,fullPage:true});
+        await page.locator("#new-game-pause").click();
+        assert.equal(await page.evaluate(()=>window.__sideRoomTest.newGame.state),"playing",game+" resumes");
+        if(viewport.name==="1920x1080"){await page.evaluate(()=>window.__sideRoomTest.newGame.end());await page.screenshot({path:`artifacts/${game}-over.png`,fullPage:true});await page.locator("#new-game-start").click()}
+        await page.locator("#new-game-restart").click();
+        assert.equal(await page.evaluate(()=>window.__sideRoomTest.newGame.state),"playing",game+" restarts");
       }
       await page.locator("#back-to-library").click();
     }
@@ -63,6 +108,8 @@ try{
   const page=await browser.newPage({viewport:{width:1440,height:900}});
   page.on("pageerror",error=>browserErrors.push("gameplay: "+error.message));
   page.on("console",msg=>{if(msg.type()==="error")browserErrors.push("gameplay: "+msg.text())});
+  page.on("requestfailed",request=>browserErrors.push("gameplay request: "+request.url()+" "+request.failure()?.errorText));
+  page.on("response",response=>{if(response.status()>=400)browserErrors.push("gameplay HTTP "+response.status()+": "+response.url())});
   await page.goto(base+"?test=1#snake",{waitUntil:"domcontentloaded"});
   await page.waitForFunction(()=>!!window.__sideRoomTest);
   await page.locator("#snake-start").click(); // Unlock Web Audio with a real user gesture.
@@ -109,6 +156,11 @@ try{
   await page.locator("#sound-toggle").click();
   assert.equal(await page.locator("#sound-toggle").getAttribute("aria-pressed"),"false","Sound toggle should mute effects");
   assert.ok(await page.evaluate(()=>localStorage.getItem("side-room-v2:audio")!==null),"Audio preferences should persist locally");
+  await page.locator("#music-toggle").click();
+  assert.equal(await page.locator("#music-toggle").getAttribute("aria-pressed"),"true","Music toggle should enable ambient sound after a gesture");
+  await page.locator("#music-volume").evaluate(el=>{el.value="0.1";el.dispatchEvent(new Event("input",{bubbles:true}))});
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem("side-room-v2:audio")).musicVolume),.1,"Music volume is independently saved");
+  await page.locator("#music-toggle").click();
 
   await page.goto(base+"?test=1#chess",{waitUntil:"domcontentloaded"});
   await page.waitForFunction(()=>window.__sideRoomTest?.chess?.chess,{timeout:20000});
@@ -159,8 +211,52 @@ try{
   assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.chess.get("a8")?.type),"n","Promotion chooser should select the requested piece");
   await page.locator("#chess-flip").click();
   assert.equal(await page.locator("#chess-board .chess-square").count(),64,"Flipping should retain all 64 squares");
+  await page.locator("#chess-new").click();
+  await page.locator("#chess-mode").selectOption("computer");
+  await page.locator("#chess-new").click();
+  await page.locator('#chess-board [data-square="e2"]').click();await page.locator('#chess-board [data-square="e4"]').click();
+  await page.locator("#chess-pause").click();
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.paused),true,"Chess pause stops engine thinking and the clock");
+  await page.screenshot({path:"artifacts/chess-paused.png",fullPage:true});
+  await page.waitForTimeout(120);
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.chess.history().length),1,"No computer move is committed while paused");
+  await page.locator("#chess-pause").click();
+  await page.waitForFunction(()=>window.__sideRoomTest.chess.chess.history().length===2&&!window.__sideRoomTest.chess.computerThinking,{timeout:30000});
+  for(const difficulty of ["beginner","casual","skilled","expert"]){
+    await page.locator("#chess-difficulty").selectOption(difficulty);
+    await page.locator("#chess-new").click();
+    await page.locator('#chess-board [data-square="e2"]').click();
+    await page.locator('#chess-board [data-square="e4"]').click();
+    await page.waitForFunction(()=>window.__sideRoomTest.chess.chess.history().length===2&&!window.__sideRoomTest.chess.computerThinking,{timeout:30000});
+    const returned=await page.evaluate(()=>window.__sideRoomTest.chess.chess.history({verbose:true}).at(-1));
+    assert.ok(returned&&returned.from&&returned.to,difficulty+" engine must return a legal chess move");
+    await page.screenshot({path:`artifacts/chess-computer-${difficulty}.png`,fullPage:true});
+  }
+  await page.locator("#chess-color").selectOption("b");
+  await page.locator('#chess-board [data-square="e2"]').click();await page.locator('#chess-board [data-square="e4"]').click();
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.chess.history().length),0,"Player input is locked during the computer turn");
+  await page.waitForFunction(()=>window.__sideRoomTest.chess.chess.history().length===1&&!window.__sideRoomTest.chess.computerThinking,{timeout:30000});
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.chess.turn()),"b","Computer should open when the player chooses Black");
+  await page.locator("#chess-color").selectOption("w");
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.chess.history().length),0,"Changing side resets the board");
+  await page.locator("#chess-color").selectOption("b");
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.computerThinking),true,"Changing to Black begins an engine search");
+  await page.locator("#chess-new").click();
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.chess.history().length),0,"New game clears the position while an old search is active");
+  await page.waitForFunction(()=>window.__sideRoomTest.chess.chess.history().length===1&&!window.__sideRoomTest.chess.computerThinking,{timeout:30000});
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.chess.turn()),"b","A fresh legal opening reply arrives after reset");
+  await page.locator("#chess-color").selectOption("w");
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.chess.history().length),0,"Changing side during play resets the board");
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.computerThinking),false,"Changing to White releases the engine worker");
+  await page.locator('#chess-board [data-square="e2"]').click();await page.locator('#chess-board [data-square="e4"]').click();
+  await page.waitForFunction(()=>window.__sideRoomTest.chess.chess.history().length===2&&!window.__sideRoomTest.chess.computerThinking,{timeout:30000});
+  await page.locator("#chess-undo").click();
+  assert.equal(await page.evaluate(()=>window.__sideRoomTest.chess.chess.history().length),0,"Undo restores the player position after a computer reply");
+  await page.evaluate(()=>{const g=window.__sideRoomTest.chess;g.chess.load("7k/6Q1/5K2/8/8/8/8/8 b - - 0 1");g.render()});
+  assert.match(await page.locator("#chess-status").innerText(),/Checkmate/);
+  await page.screenshot({path:"artifacts/chess-over.png",fullPage:true});
   assert.ok(browserErrors.length===0,"Browser errors: "+browserErrors.join(" | "));
   await page.screenshot({path:"artifacts/chess-rules-final.png",fullPage:true});
   await page.close();
-  console.log("PASS: six viewport layouts, screenshots for all three games, Snake edge cases, Fire Watch progression/damage, Chess rules and promotion.");
+  console.log("PASS: six viewport layouts, eight games, lifecycle/input checks, Snake and Fire Watch regression, Chess rules and four Stockfish difficulty profiles.");
 }finally{await browser.close()}

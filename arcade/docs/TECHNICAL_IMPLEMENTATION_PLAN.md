@@ -9,7 +9,7 @@
 2. Retain `chess.js` for rules, but make its pinned distribution local to the repository (with the package's required notice) so the board does not depend on `esm.sh` at runtime.
 3. Implement the five compact games as lazy-imported native Canvas modules, with shared lifecycle/input/storage utilities. The existing project has no build system; a new mandatory framework/build pipeline would add complexity without a demonstrated need for these fixed-screen games.
 4. Do not combine Phaser and Pixi. Phaser is a capable, browser-focused 2D framework (official documentation: https://docs.phaser.io/), but this implementation will use Canvas 2D for a smaller offline-capable static artifact and existing architecture. This choice must be re-evaluated if the hand-maintained lifecycle proves error-prone.
-5. Implement an original legal-move chess opponent in a dedicated Web Worker only if its difficulty and latency can be verified; preferred is a local Stockfish WebAssembly build if its exact package/version, worker support, size and GPL corresponding-source obligations can all be satisfied. Do not ship an unlicensed or partially sourced engine. If no compliant engine artifact can be included, the computer mode must remain unshipped rather than fake moves; report the limitation.
+5. Implement the opponent with Stockfish.js 10.0.2 WebAssembly in a dedicated, lazy-created Worker. Keep `chess.js` rules separate, validate each UCI move against legal moves, terminate workers on reset/pause/exit, and include GPLv3 text plus pinned wrapper/engine corresponding-source links. Difficulty uses measured search depth and Stockfish skill options (Beginner 0/6, Casual 4/10, Skilled 12/14, Expert 20/17); these are product profiles, not Elo claims. Browser automation verified all four profiles return legal moves.
 6. Keep tests and CI reproducible; pin test and runtime dependencies and include browser install instructions in Actions. No secret, server, account, analytics or paid API is introduced.
 
 ## Proposed implementation areas
@@ -54,6 +54,6 @@ Each game exposes `create(host, services) -> { start, pause, resume, restart, di
 6. Review licenses, README arcade-only diff, project-path deployment and workflow.
 7. Do not deploy if required QA cannot run or has release-blocking failures.
 
-## Known environment constraint
+## Verification environment
 
-In the current agent environment, Playwright's npm package is installable but Chromium download is not available because the browser binary host (`cdn.playwright.dev`) is outside the network allowlist, and there is no system browser installed. This means local visual/browser QA cannot currently be claimed. The CI workflow can provision Chromium on GitHub Actions, but a green CI run and post-deploy browser validation are still required before calling the release complete.
+Playwright's usual browser download endpoint is outside the sandbox network allowlist and no system browser is installed. To conduct local browser QA, a temporary Chromium binary was obtained from the npm registry's `@sparticuz/chromium` package (not added to production or project dependencies), with its bundled Linux libraries. The complete Playwright suite then ran locally against the static server. GitHub Actions independently installs its standard Playwright Chromium. The live GitHub Pages deployment has not been updated or post-deployment tested; this branch remains subject to the repository's review/merge and Pages workflow.

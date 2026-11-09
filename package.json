@@ -1,0 +1,14 @@
+{
+  "name": "lantern-room-arcade",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:logic": "node --test arcade/tests/*.test.mjs",
+    "test:browser": "node arcade/tests/smoke.mjs",
+    "test": "npm run test:logic && npm run test:browser"
+  },
+  "devDependencies": {
+    "axe-core": "4.14.0",
+    "playwright": "1.65.0"
+  }
+}
