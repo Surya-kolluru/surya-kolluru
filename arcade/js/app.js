@@ -76,6 +76,7 @@ function frame(now){
   raf=requestAnimationFrame(frame);
 }
 raf=requestAnimationFrame(frame);
+if(new URLSearchParams(location.search).has("test=1")){Object.defineProperty(window,"__sideRoomTest",{value:{snake,fire,get chess(){return chess},openGame},configurable:false});}
 document.addEventListener("visibilitychange",()=>{
   lastFrame=0;
   snake.setActive(current==="snake"&&!document.hidden);
