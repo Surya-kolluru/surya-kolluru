@@ -51,7 +51,8 @@ jobs:
           root = Path("arcade")
           html = (root / "index.html").read_text(encoding="utf-8")
           required = re.findall(r'(?:href|src)="(\./[^"]+)"', html)
-          missing = [p for p in required if not (root / p[2:]).is_file()]
+          required = [p for p in required if p not in {"./", "./#"}]
+          missing = [p for p in required if not (root / p[2:].split("#", 1)[0]).is_file()]
           if missing:
               raise SystemExit("Missing local files: " + ", ".join(missing))
           for js in (root / "js").glob("*.js"):
