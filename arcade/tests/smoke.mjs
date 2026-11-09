@@ -123,7 +123,7 @@ try{
     const g=window.__sideRoomTest.chess,c=g.chess,results={};
     c.reset();results.openingE4=c.moves({square:"e2"}).includes("e4");
     try{c.move({from:"e2",to:"e5"});results.illegalRejected=false}catch{results.illegalRejected=true}
-    c.load("k7/8/8/8/8/8/8/R3K2R w KQ - 0 1");
+    c.load("4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1");
     results.castling=c.moves({square:"e1",verbose:true}).filter(m=>m.san==="O-O"||m.san==="O-O-O").map(m=>m.san).sort();
     c.reset();["e4","a6","e5","d5"].forEach(m=>c.move(m));
     results.enPassant=c.moves({square:"e5",verbose:true}).some(m=>m.to==="d6"&&m.flags.includes("e"));
