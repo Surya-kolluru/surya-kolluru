@@ -101,6 +101,14 @@ try{
   assert.deepEqual(fireChecks.hit,{score:100,remaining:0},"Water projectile should extinguish a fire");
   assert.equal(fireChecks.stage.stage,2,"Completing a quota should advance the stage");
   assert.equal(fireChecks.damage.lives,2,"A fire reaching the village should cost one life");
+  const fireBox=await page.locator("#fire-canvas").boundingBox();
+  await page.mouse.move(fireBox.x+35,fireBox.y+35);
+  await page.mouse.click(fireBox.x+35,fireBox.y+35);
+  const aimedShot=await page.evaluate(()=>window.__sideRoomTest.fire.shots.at(-1));
+  assert.ok(aimedShot.vx<0&&aimedShot.vy<0,"Fire Watch pointer should aim the cannon toward the pointer");
+  await page.locator("#sound-toggle").click();
+  assert.equal(await page.locator("#sound-toggle").getAttribute("aria-pressed"),"false","Sound toggle should mute effects");
+  assert.ok(await page.evaluate(()=>localStorage.getItem("side-room-v2:audio")!==null),"Audio preferences should persist locally");
 
   await page.goto(base+"?test=1#chess",{waitUntil:"domcontentloaded"});
   await page.waitForFunction(()=>window.__sideRoomTest?.chess?.chess,{timeout:20000});
