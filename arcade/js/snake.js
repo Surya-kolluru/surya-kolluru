@@ -53,6 +53,7 @@ export class SnakeGame{
     if(x===base.x&&y===base.y)return;
     if(this.queue.length>=2)return;
     this.queue.push({x,y});
+    this.audio.play("snake-turn");
     if(this.state==="ready")this.start();
   }
   start(){
@@ -104,7 +105,7 @@ export class SnakeGame{
   updateHud(){
     this.$("snake-score").textContent=String(this.score).padStart(3,"0");
     this.$("snake-best").textContent=String(this.best).padStart(3,"0");
-    this.$("snake-length").textContent=String(this.body.length).padStart(2,"0");
+    this.$("snake-length").textContent=String(this.level).padStart(2,"0");
     this.$("snake-pace").textContent=(1+(this.level-1)*.12).toFixed(1)+"×";
   }
   update(dt){
@@ -156,7 +157,7 @@ export class SnakeGame{
     c.strokeStyle="#acb29a";c.lineWidth=1.5;c.strokeRect(18,18,w-36,h-36);
     c.fillStyle="#75836c";c.font="12px monospace";c.fillText("THE GARDEN / "+String(this.level).padStart(2,"0"),43,24);
     const fx=(this.food.x+.5)*this.cell,fy=(this.food.y+.5)*this.cell;
-    this.drawApple(c,fx,fy+Math.sin(this.time*3)*2,13);
+    this.drawApple(c,fx,fy+Math.sin(this.time*2.7)*2.8,13);
     this.drawSnake(c,alpha);
     this.particles.forEach(p=>{c.globalAlpha=Math.max(0,p.life/p.max);c.fillStyle="#bf7952";c.beginPath();c.arc(p.x,p.y,p.r,0,Math.PI*2);c.fill()});c.globalAlpha=1;
     this.floaters.forEach(p=>{c.globalAlpha=clamp(p.life/.8,0,1);c.fillStyle="#426b4c";c.font="bold 17px Georgia";c.textAlign="center";c.fillText(p.text,p.x,p.y)});c.globalAlpha=1;c.textAlign="left";
