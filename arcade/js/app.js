@@ -6,6 +6,7 @@ const $=id=>document.getElementById(id);
 const audio=new AudioSystem();
 const snake=new SnakeGame($("snake-canvas"),audio);
 const fire=new FireWatchGame($("fire-canvas"),audio);
+snake.setActive(false);fire.setActive(false);
 let chess=null,current=null,lastFrame=0,raf=0;
 const descriptions={
   snake:{title:"Snake",kicker:"01 / ARCADE CLASSIC"},
