@@ -2,3 +2,14 @@
 @media(max-width:900px){.intro{gap:24px}.card-art{height:130px}.game-card{padding:9px}.card-title{font-size:25px}}
 @media(max-width:700px){.site-shell{width:min(100% - 24px,1240px);padding:13px 0 22px}.masthead{height:auto;padding-bottom:12px}.wordmark-seal{width:34px;height:34px}.wordmark-copy strong{font-size:10px}.wordmark-copy small{font-size:8px}.icon-button,.profile-link{padding:0 7px;height:31px;font-size:8px}.icon-button svg{width:13px}.intro{grid-template-columns:1fr;padding:28px 2px 26px;gap:17px}.intro h1{font-size:clamp(50px,13vw,70px);margin:12px 0 14px}.intro-text{font-size:13px;max-width:520px}.intro-illustration{display:none}.section-heading h2{font-size:22px}.section-note{display:none}.game-cards{grid-template-columns:1fr;gap:8px}.game-card{display:grid;grid-template-columns:92px 1fr;grid-template-rows:auto auto auto 1fr;column-gap:12px;align-items:start;padding:9px}.card-art{grid-row:1/5;grid-column:1;height:104px;width:92px}.card-meta{grid-column:2;padding:2px 0 3px}.card-title{grid-column:2;font-size:24px}.card-description{grid-column:2;min-height:0;font-size:10px;margin:2px 0 0}.card-action{grid-column:2;margin-top:7px;padding-top:7px;font-size:8px}.play-room{margin-top:25px}.room-heading{gap:11px;padding-bottom:12px}.room-title-wrap{padding-left:11px}.room-title-wrap h2{font-size:25px}.room-edition{display:none}.game-toolbar,.chess-toolbar,.fire-topline{align-items:flex-start;flex-direction:column;gap:10px;padding:11px}.toolbar-buttons{width:100%}.toolbar-buttons button{flex:1;padding:0 8px;font-size:8px}.site-footer{font-size:8px;line-height:1.6}}
 @media(max-width:390px){.masthead-actions{gap:4px}.icon-button span{display:none}.profile-link{font-size:8px}.intro h1{font-size:49px}.section-heading{gap:8px}}
+
+.audio-settings{position:relative}
+.audio-settings summary{list-style:none;cursor:pointer;height:34px;padding:9px 10px;border:1px solid #546257;border-radius:3px;color:#e6e6d8;font:9px var(--mono);letter-spacing:.12em}
+.audio-settings summary::-webkit-details-marker{display:none}
+.audio-settings summary:hover{background:#344138;border-color:#a6b69a}
+.audio-settings[open] summary{background:#39473b;border-color:#8f9d88}
+.audio-popover{position:absolute;z-index:30;right:0;top:40px;width:210px;padding:13px;background:#e8e1d1;color:#29342b;border:1px solid #929b86;box-shadow:5px 5px 0 #1117}
+.audio-popover label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 11px;font:8px var(--mono);letter-spacing:.12em}
+.audio-popover label:last-child{margin-bottom:1px}
+.audio-popover input{width:110px;accent-color:#5c795e}
+@media(max-width:390px){.audio-settings summary{font-size:8px;padding:9px 7px}}
